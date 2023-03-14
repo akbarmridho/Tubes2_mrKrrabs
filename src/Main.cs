@@ -1,1 +1,0 @@
-// Algoritma untuk main program 
