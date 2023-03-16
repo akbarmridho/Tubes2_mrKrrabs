@@ -1,6 +1,18 @@
-﻿namespace mrKrrabs.ViewModels;
+﻿using ReactiveUI;
+
+namespace mrKrrabs.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public string Greeting => "Welcome to Avalonia!";
+    public MainWindowViewModel() {
+        Content = new FormViewModel();
+    }
+
+    ViewModelBase content;
+
+    public ViewModelBase Content
+    {
+        get => content;
+        private set => this.RaiseAndSetIfChanged(ref content, value);
+    }
 }

@@ -3,11 +3,14 @@
         xmlns:vm="using:mrKrrabs.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="720"
         x:Class="mrKrrabs.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="mrKrrabs">
+        Title="mrKrrabs"
+		Height="720"
+		Width="1280"
+		CanResize="False">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -15,6 +18,21 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+	<StackPanel Orientation="Horizontal">
+		<Panel Height="720" Width="560" Background="RosyBrown">
+			<Panel Margin="40" Background="Bisque">
+				<StackPanel Orientation="Vertical">
+					<Panel Height="180" Background="Peru">
+						
+					</Panel>
+					<Panel Background="Azure" />
+				</StackPanel>
+			</Panel>
+		</Panel>
+		<Panel Height="720" Width="720" Background="AliceBlue">
+			<Panel Margin="40" Background="BlanchedAlmond">
 
+			</Panel>
+		</Panel>
+	</StackPanel>
 </Window>
