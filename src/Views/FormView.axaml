@@ -9,7 +9,7 @@
 	<DockPanel Margin="30">
 		<StackPanel DockPanel.Dock="Top">
 			<Button Command="{Binding OpenFile}">Pilih file</Button>
-			<TextBlock Margin="2,5,0,30">No file selected</TextBlock>
+			<TextBlock Margin="2,5,0,30" Foreground="{Binding PathDescriptionColor}" Text="{Binding PathDescription}"/>
 
 			<TextBlock FontSize="20" FontWeight="Medium">Algoritma</TextBlock>
 			<RadioButton

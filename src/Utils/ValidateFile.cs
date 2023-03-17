@@ -37,7 +37,7 @@ namespace mrKrrabs.Utils
 
                 foreach(var chr in line.ToCharArray())
                 {
-                    if (chr != 'X' && chr != 'T' && chr != 'R' && chr != 'X')
+                    if (chr != 'K' && chr != 'T' && chr != 'R' && chr != 'X')
                     {
                         return null;
                     }

@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reactive.Linq;
 using Avalonia.Controls;
+using mrKrrabs.Solver;
+using mrKrrabs.Utils;
 
 namespace mrKrrabs.ViewModels
 {
@@ -16,11 +18,16 @@ namespace mrKrrabs.ViewModels
         bool useDfs = true;
         bool useBfs = false;
         bool withTsp = false;
-        string mazePath;
+        string? mazePath;
+        MazeMap? map;
+        string pathDescription;
+        string pathDescriptionColor;
         public FormViewModel() {
-            MazePath = "somefile";
-            var buttonEnabled = this.WhenAnyValue(x => x.MazePath, x=> !string.IsNullOrWhiteSpace(x)); // todo
-            // validasi maze
+            pathDescription = "Tidak ada berkas yang dipilih";
+            pathDescriptionColor = "Black";
+            OpenFile = ReactiveCommand.CreateFromTask(OpenFileAsync);
+
+            var buttonEnabled = this.WhenAnyValue(x => x.Map).Select(x => x != null);
 
             Start = ReactiveCommand.Create(
                     () => new Form(),
@@ -30,13 +37,30 @@ namespace mrKrrabs.ViewModels
         }
         public ReactiveCommand<Unit, Form> Start { get; }
 
-        public ReactiveCommand<Unit, string> OpenFile { get; }
+        public ReactiveCommand<Unit, Unit> OpenFile { get; }
 
         public Interaction<Unit, string?> ShowOpenFileDialog { get; }
 
-        public string MazePath {
+        public string? MazePath {
             get => mazePath;
             set => this.RaiseAndSetIfChanged(ref mazePath, value);
+        }
+
+        public MazeMap? Map { 
+            get => map; 
+            set => this.RaiseAndSetIfChanged(ref map, value);
+        }
+
+        public string PathDescription
+        {
+            get => pathDescription;
+            set => this.RaiseAndSetIfChanged(ref pathDescription, value);
+        }
+
+        public string PathDescriptionColor
+        {
+            get => pathDescriptionColor;
+            set => this.RaiseAndSetIfChanged(ref pathDescriptionColor, value);
         }
 
         public bool UseDfs
@@ -59,7 +83,27 @@ namespace mrKrrabs.ViewModels
 
         private async Task OpenFileAsync()
         {
-            var filename = await ShowOpenFileDialog.Handle(Unit.Default);
+            var filepath = await ShowOpenFileDialog.Handle(Unit.Default);
+
+            if (filepath == null)
+            {
+                PathDescription = "Tidak ada berkas yang dipilih";
+                PathDescriptionColor = "Black";
+            } else
+            {
+                var map = ValidateFile.Validate(filepath);
+
+                if (map == null)
+                {
+                    PathDescription = "File tidak ditemukan atau format file map salah";
+                    PathDescriptionColor = "Red";
+                } else
+                {
+                    Map = map;
+                    PathDescription = "Berkas terpilih";
+                    PathDescriptionColor = "Black";
+                }
+            }
         }
     }
 }

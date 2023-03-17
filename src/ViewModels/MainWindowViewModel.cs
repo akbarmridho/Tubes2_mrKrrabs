@@ -8,6 +8,7 @@ namespace mrKrrabs.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     public MainWindowViewModel() {
+        content = new FormViewModel();
         BeginForm();
     }
 
