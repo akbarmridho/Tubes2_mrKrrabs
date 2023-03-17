@@ -9,6 +9,9 @@ namespace mrKrrabs.ViewModels
     public class GridViewModel : ViewModelBase
     {
         string type;
+        int visitCount;
+        bool visiting;
+        bool isRoute;
 
         public GridViewModel(char type)
         {
@@ -17,6 +20,17 @@ namespace mrKrrabs.ViewModels
 
         public string Type {
             get => type;
+        }
+
+        public void visit()
+        {
+            visitCount++;
+            visiting = true;
+        }
+
+        public void disableVisiting()
+        {
+            visiting = false;
         }
     }
 }
