@@ -30,7 +30,7 @@ namespace mrKrrabs.ViewModels
             var buttonEnabled = this.WhenAnyValue(x => x.Map).Select(x => x != null);
 
             Start = ReactiveCommand.Create(
-                    () => new Form(),
+                    () => new Form(UseBfs ? AvailableAlgorithm.BFS : AvailableAlgorithm.DFS, WithTsp, Map!),
                     buttonEnabled);
 
             ShowOpenFileDialog = new Interaction<Unit, string?>();

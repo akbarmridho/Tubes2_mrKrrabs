@@ -8,7 +8,8 @@ namespace mrKrrabs.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     public MainWindowViewModel() {
-        content = new FormViewModel();
+        //content = new FormViewModel();
+        //mazePanel = new MazeEmptyViewModel();
         BeginForm();
     }
 
@@ -19,11 +20,11 @@ public class MainWindowViewModel : ViewModelBase
         Observable.Merge(vm.Start).Take(1).Subscribe(Models =>
         {
             Content = new ResultViewModel();
+            MazePanel = new MazeViewModel(Models.Map);
         }); 
 
         Content = vm;
-        mazePanel = new MazeViewModel();
-        // reset maze content
+        MazePanel = new MazeEmptyViewModel();
     }
 
     ViewModelBase content;
