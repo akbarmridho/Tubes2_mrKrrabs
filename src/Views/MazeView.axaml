@@ -2,7 +2,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:local="using:mrKrrabs.Views"
+			 mc:Ignorable="d" d:DesignWidth="720" d:DesignHeight="720"
+			 Width="720"
+			 Height="720"
              x:Class="mrKrrabs.Views.MazeView">
-  Welcome to Avalonia!
+	<ItemsControl Items="{Binding Maze}">
+		<ItemsControl.ItemsPanel>
+			<ItemsPanelTemplate>
+				<UniformGrid Columns="{Binding Size}" Margin="40"/>
+			</ItemsPanelTemplate>
+		</ItemsControl.ItemsPanel>
+	</ItemsControl>
 </UserControl>

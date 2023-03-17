@@ -22,6 +22,7 @@ public class MainWindowViewModel : ViewModelBase
         }); 
 
         Content = vm;
+        mazePanel = new MazeViewModel();
         // reset maze content
     }
 
@@ -31,5 +32,13 @@ public class MainWindowViewModel : ViewModelBase
     {
         get => content;
         private set => this.RaiseAndSetIfChanged(ref content, value);
+    }
+
+    ViewModelBase mazePanel;
+
+    public ViewModelBase MazePanel
+    {
+        get => mazePanel;
+        private set => this.RaiseAndSetIfChanged(ref mazePanel, value);
     }
 }

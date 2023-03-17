@@ -26,14 +26,13 @@
 						
 				</Panel>
 				<Panel Background="Azure" >
-					<local:ContentView/>
+					<ContentControl Content="{Binding Content}"/>
 				</Panel>
 			</StackPanel>
 		</Panel>
 		<Panel Height="720" Width="720" Background="AliceBlue">
-			<Panel Margin="40" Background="BlanchedAlmond">
-
-			</Panel>
+			<ContentControl Content="{Binding MazePanel}"/>
+			<!--<vm:MazeViewModel/>-->
 		</Panel>
 	</StackPanel>
 </Window>
