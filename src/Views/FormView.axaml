@@ -2,30 +2,33 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="480"
 			 Width="540"
-			 Height="450"
+			 Height="480"
              x:Class="mrKrrabs.Views.FormView">
-	<StackPanel Margin="30">
-		<Button>Pilih file ...</Button>
-		<TextBlock Margin="2,5,0,30">No file selected</TextBlock>
+	<DockPanel Margin="30">
+		<StackPanel DockPanel.Dock="Top">
+			<Button Command="{Binding OpenFile}">Pilih file</Button>
+			<TextBlock Margin="2,5,0,30">No file selected</TextBlock>
 
-		<TextBlock FontSize="20" FontWeight="Medium">Algoritma</TextBlock>
-		<RadioButton
-			IsChecked="True"
-			GroupName="Algorithm"
-			Content="Depth First Search (DFS)"
+			<TextBlock FontSize="20" FontWeight="Medium">Algoritma</TextBlock>
+			<RadioButton
+				IsChecked="{Binding UseDfs}"
+				GroupName="Algorithm"
+				Content="Depth First Search (DFS)"
 								/>
-		<RadioButton
-			IsChecked="False"
-			GroupName="Algorithm"
-			Content="Breadth First Search (BFS)"
+			<RadioButton
+				IsChecked="{Binding UseBfs}"
+				GroupName="Algorithm"
+				Content="Breadth First Search (BFS)"
 								/>
 
-		<TextBlock Margin="0,30,0,0" FontSize="20" FontWeight="Medium">Opsi tambahan</TextBlock>
-		<CheckBox Content="Gunakan solusi Travelling Salesman Problem"/>
-		<Button Margin="0,30,0,0" HorizontalAlignment="Center">
+			<TextBlock Margin="0,30,0,0" FontSize="20" FontWeight="Medium">Opsi tambahan</TextBlock>
+			<CheckBox Content="Gunakan solusi Travelling Salesman Problem" IsChecked="{Binding WithTsp}"/>
+		</StackPanel>
+
+		<Button DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,30,0,0" HorizontalAlignment="Center" Command="{Binding Start}">
 			Mulai
 		</Button>
-	</StackPanel>
+	</DockPanel>
 </UserControl>

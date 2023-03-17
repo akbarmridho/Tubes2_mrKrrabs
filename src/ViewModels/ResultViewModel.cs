@@ -8,5 +8,6 @@ namespace mrKrrabs.ViewModels
 {
     public class ResultViewModel:ViewModelBase
     {
+
     }
 }

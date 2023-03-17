@@ -1,4 +1,7 @@
 using Avalonia.Controls;
+using Avalonia.ReactiveUI;
+using mrKrrabs.ViewModels;
+using ReactiveUI;
 
 namespace mrKrrabs.Views;
 

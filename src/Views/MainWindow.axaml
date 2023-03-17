@@ -21,16 +21,14 @@
 
 	<StackPanel Orientation="Horizontal">
 		<Panel Height="720" Width="560" Background="RosyBrown">
-			<Panel Margin="40" Background="Bisque">
-				<StackPanel Orientation="Vertical">
-					<Panel Height="180" Background="Peru">
+			<StackPanel Margin="40"  Orientation="Vertical">
+				<Panel Height="180" Background="Peru">
 						
-					</Panel>
-					<Panel Background="Azure" >
-						<local:ContentView/>
-					</Panel>
-				</StackPanel>
-			</Panel>
+				</Panel>
+				<Panel Background="Azure" >
+					<local:ContentView/>
+				</Panel>
+			</StackPanel>
 		</Panel>
 		<Panel Height="720" Width="720" Background="AliceBlue">
 			<Panel Margin="40" Background="BlanchedAlmond">
