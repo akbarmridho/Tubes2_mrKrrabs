@@ -24,9 +24,8 @@
 								/>
 
 			<TextBlock Margin="0,30,0,0" FontSize="20" FontWeight="Medium">Opsi tambahan</TextBlock>
-			<CheckBox Content="Gunakan solusi Travelling Salesman Problem" IsChecked="{Binding WithTsp}"/>
+			<ToggleSwitch  Content="Gunakan solusi Travelling Salesman Problem" IsChecked="{Binding WithTsp}"/>
 		</StackPanel>
-
 		<Button DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,30,0,0" HorizontalAlignment="Center" Command="{Binding Start}">
 			Mulai
 		</Button>

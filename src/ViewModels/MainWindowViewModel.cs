@@ -20,9 +20,15 @@ public class MainWindowViewModel : ViewModelBase
             
         Observable.Merge(vm.Start).Take(1).Subscribe(Models =>
         {
+            var watch = new System.Diagnostics.Stopwatch();
+
+            watch.Start();
             var Example = new ExampleResult(Models.Map);
-            Content = new ResultViewModel();
-            var mazeView = new MazeViewModel(Example.getResult());
+            watch.Stop();
+
+            var Result = Example.getResult();
+            Content = new ResultViewModel(Result, watch.ElapsedMilliseconds, Models.Algorithm == mrKrrabs.Models.AvailableAlgorithm.DFS, Models.UseTsp);
+            var mazeView = new MazeViewModel(Result);
             MazePanel = mazeView;
             mazeView.Begin();
         }); 

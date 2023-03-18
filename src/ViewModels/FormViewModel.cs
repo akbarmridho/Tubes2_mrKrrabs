@@ -10,6 +10,7 @@ using System.Reactive.Linq;
 using Avalonia.Controls;
 using mrKrrabs.Solver;
 using mrKrrabs.Utils;
+using System.IO;
 
 namespace mrKrrabs.ViewModels
 {
@@ -100,7 +101,7 @@ namespace mrKrrabs.ViewModels
                 } else
                 {
                     Map = map;
-                    PathDescription = "Berkas terpilih";
+                    PathDescription = "Berkas " + Path.GetFileName(filepath) + " dipilih";
                     PathDescriptionColor = "Black";
                 }
             }
