@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="100" d:DesignHeight="100"
              x:Class="mrKrrabs.Views.GridView">
-	<Panel Background="Aquamarine">
+	<Panel Background="{Binding Background}">
 		<TextBlock Text="{Binding Type}"/>
 	</Panel>
 </UserControl>

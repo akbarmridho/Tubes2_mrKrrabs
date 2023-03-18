@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,14 +14,50 @@ namespace mrKrrabs.ViewModels
 {
     public class MazeViewModel : ViewModelBase
     {
-        public MazeViewModel(MazeMap map) 
+        MovementHistory history;
+        public MazeViewModel(MovementHistory history) 
         {
-            foreach(var row in map.Map)
+            this.history = history;
+            foreach(var row in history.Maze.Map)
             {
                 foreach(var col in row)
                 {
                     this.Maze.Add(new GridViewModel(col));
                 }
+            }
+        }
+
+        int rowColToIdx(int row, int col)
+        {
+            return row * Size + col;
+        }
+
+        public async void Begin()
+        {
+            Coordinate prev = new(0, 0);
+            for (int i = 0; i < history.Movements.Count; i++)
+            {
+                await Task.Delay(200);
+                var c = history.Movements[i];
+
+                if (i != 0)
+                {
+                    Maze[rowColToIdx(prev.Item2, prev.Item1)].DisableVisiting();
+                }
+                Maze[rowColToIdx(c.Item2, c.Item1)].Visit();
+                prev = c;
+            }
+            Maze[rowColToIdx(prev.Item2, prev.Item1)].DisableVisiting();
+
+            await Task.Delay(1000);
+            foreach (var grid in Maze)
+            {
+                grid.SetNotRoute();
+            }
+
+            foreach (var r in history.Routes)
+            {
+                Maze[rowColToIdx(r.Item2, r.Item1)].SetRoute();
             }
         }
 

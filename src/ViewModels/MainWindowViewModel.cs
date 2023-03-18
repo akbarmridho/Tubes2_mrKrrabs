@@ -2,6 +2,7 @@
 using System.Linq;
 using System;
 using System.Reactive.Linq;
+using mrKrrabs.Solver;
 
 namespace mrKrrabs.ViewModels;
 
@@ -19,8 +20,11 @@ public class MainWindowViewModel : ViewModelBase
             
         Observable.Merge(vm.Start).Take(1).Subscribe(Models =>
         {
+            var Example = new ExampleResult(Models.Map);
             Content = new ResultViewModel();
-            MazePanel = new MazeViewModel(Models.Map);
+            var mazeView = new MazeViewModel(Example.getResult());
+            MazePanel = mazeView;
+            mazeView.Begin();
         }); 
 
         Content = vm;

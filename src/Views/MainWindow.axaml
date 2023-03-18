@@ -22,7 +22,7 @@
 	<StackPanel Orientation="Horizontal">
 		<Panel Height="720" Width="560" Background="RosyBrown">
 			<StackPanel Margin="40"  Orientation="Vertical">
-				<Panel Height="180" Background="Peru">
+				<Panel Height="180" Background="Pink">
 						
 				</Panel>
 				<Panel Background="Azure" >
