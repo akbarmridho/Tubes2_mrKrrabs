@@ -21,17 +21,19 @@
     </Design.DataContext>
 
 	<StackPanel Orientation="Horizontal">
-		<Panel Height="720" Width="560" Background="RosyBrown">
-			<StackPanel Margin="40"  Orientation="Vertical">
-				<Panel Height="180" Background="AliceBlue">
-						
-				</Panel>
-				<Panel Background="Azure" >
-					<ContentControl Content="{Binding Content}"/>
-				</Panel>
-			</StackPanel>
+		<Panel Height="720" Width="560" Background="#704922">
+			<Border Margin="40" CornerRadius="25" Background="WhiteSmoke" BoxShadow="0 0 5 5 #59330d">
+				<StackPanel Orientation="Vertical">
+					<Panel Height="180">
+
+					</Panel>
+					<Panel Margin="20,0,20,0">
+						<ContentControl Content="{Binding Content}"/>
+					</Panel>
+				</StackPanel>
+			</Border>
 		</Panel>
-		<Panel Height="720" Width="720" Background="AliceBlue">
+		<Panel Height="720" Width="720">
 			<ContentControl Content="{Binding MazePanel}"/>
 			<!--<vm:MazeViewModel/>-->
 		</Panel>
