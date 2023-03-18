@@ -9,13 +9,14 @@ namespace mrKrrabs.Solver
     public class DFS : ISolver
     {
         private MazeMap mazeMap;
-        private MovementHistory movement;
+        private MovementHistory movement = new();
         private Stack<Coordinate> available = new();
         private Coordinate currentPosition; 
+        private int treasureCollected;
         public DFS(MazeMap m) {
             this.mazeMap = m;
-            this.movement = new(m);
             this.currentPosition = new Coordinate(0, 0);
+            this.treasureCollected = 0;
         }
 
         public void addCoordinate(Coordinate coord)
@@ -59,7 +60,21 @@ namespace mrKrrabs.Solver
             }
         }
 
+        public void Visit()
+        {
+            Coordinate visit = available.Pop();
+            if(mazeMap.GetElement(visit) == Element.Treasure)
+            {
+                this.treasureCollected++;
+            }
+        }
 
+        public void Solve()
+        {
+            while(available.Count > 0 && treasureCollected < mazeMap.totalTreasure) {
+                AvaialableMovement();
+            }
+        }
 
     }
 }
