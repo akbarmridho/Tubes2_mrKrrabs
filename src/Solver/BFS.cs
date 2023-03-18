@@ -8,8 +8,9 @@ namespace mrKrrabs.Solver
         // Attributes
         private MazeMap mazeMap;
         private MovementHistory movement;
-        private Queue<Coordinate> available = new();
+        private Queue<Route> available = new();
         private Coordinate currPosition;
+        private Route currRoute;
         private int treasureCollected;
         
         // Methods
@@ -19,11 +20,12 @@ namespace mrKrrabs.Solver
             this.movement = new MovementHistory(m);
             this.currPosition = new Coordinate(0, 0);
             this.treasureCollected = 0;
+            addCoordinate(new Route(false, m.StartPosition));
         }
 
-        public void addCoordinate(Coordinate coord)
+        public void addCoordinate(Route route)
         {
-            this.available.Enqueue(coord);
+            this.available.Enqueue(route);
         }
 
         public MovementHistory getResult()
@@ -44,39 +46,50 @@ namespace mrKrrabs.Solver
         public void AvailableMovement()
         {
             /* Mengecek prioritas */
+            
             if (Moveable(this.currPosition.Top())){
-                addCoordinate(this.currPosition.Top());
+                Coordinate p = this.currPosition.Top();
+                bool isTreasure = mazeMap.GetElement(p) == Element.Treasure;
+                var newRoute = new Route(isTreasure, p, currRoute);
+                addCoordinate(newRoute);
             }
             if (Moveable(this.currPosition.Left())) {
-                addCoordinate(this.currPosition.Left());
+                Coordinate p = this.currPosition.Top();
+                bool isTreasure = mazeMap.GetElement(p) == Element.Treasure;
+                var newRoute = new Route(isTreasure, p, currRoute);
+                addCoordinate(newRoute);
             }
             if (Moveable(this.currPosition.Bottom())){
-                addCoordinate(this.currPosition.Bottom());
+                Coordinate p = this.currPosition.Top();
+                bool isTreasure = mazeMap.GetElement(p) == Element.Treasure;
+                var newRoute = new Route(isTreasure, p, currRoute);
+                addCoordinate(newRoute);
             }
             if (Moveable(this.currPosition.Right())) {
-                addCoordinate(this.currPosition.Right());
+                Coordinate p = this.currPosition.Top();
+                bool isTreasure = mazeMap.GetElement(p) == Element.Treasure;
+                var newRoute = new Route(isTreasure, p, currRoute);
+                addCoordinate(newRoute);
             }
         }
 
         public void Visit()
         {
             List<List<int>> visitedNodes;
-            Coordinate visit = available.Dequeue();
+            Route visit = available.Dequeue();
             
-            if (mazeMap.GetElement(visit) == Element.Treasure)
+            if (mazeMap.GetElement(visit.CurrentCoordinate) == Element.Treasure)
             {
                 this.treasureCollected++;
             }
-            
-            movement.Move(visit);
+            movement.Move(visit.CurrentCoordinate);
         }
 
         public void Solve()
         {
             while(available.Count > 0 && treasureCollected < mazeMap.TotalTreasure) {
-                AvailableMovement();
                 Visit();
-                
+                AvailableMovement();
             }
             
             // Get route

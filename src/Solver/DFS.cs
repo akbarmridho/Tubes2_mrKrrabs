@@ -63,14 +63,14 @@ namespace mrKrrabs.Solver
             }
         }
 
-        public int getVisisted(Coordinate c1)
+        public int getVisited(Coordinate c1)
         {
             return this.visitedCount[c1.Y][c1.X];
         }
 
         public bool checkPriority(Coordinate c1, Coordinate c2)
         {
-            if(getVisisted(c1) < getVisisted(c2))
+            if(getVisited(c1) < getVisited(c2))
             {
                 return true;
             }
