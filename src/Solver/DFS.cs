@@ -9,11 +9,10 @@ namespace mrKrrabs.Solver
     public class DFS : ISolver
     {
         private MazeMap mazeMap;
-        private List<List<int>> visitedCount = new();
         private MovementHistory movement;
-        private Stack<Coordinate> available = new();
-        private Coordinate currentPosition; 
-        private int treasureCollected;
+        private Stack<Route> available = new();
+        private List<List<int>> visitedCount = new();
+        private Route currRoute;
         public DFS(MazeMap m) {
             this.mazeMap = m;
             this.movement = new(m);
@@ -28,11 +27,10 @@ namespace mrKrrabs.Solver
                 }
                 this.visitedCount.Add(list2);
             }
-            this.currentPosition = m.StartPosition;
-            this.treasureCollected = 0;
+            addCoordinate(new Route(false, m.StartPosition));
         }
 
-        public void addCoordinate(Coordinate coord)
+        public void addCoordinate(Route coord)
         {
             this.available.Push(coord);
         }
@@ -41,10 +39,7 @@ namespace mrKrrabs.Solver
             return this.movement;
         }
 
-        public void setVisited(Coordinate c)
-        {
-            this.visitedCount[c.X][c.Y]++;
-        }
+       
 
         public bool Moveable(Coordinate c)
         {
@@ -61,6 +56,10 @@ namespace mrKrrabs.Solver
             {
                 return false;
             }
+        }
+        public void setVisited(Coordinate c)
+        {
+            this.visitedCount[c.X][c.Y]++;
         }
 
         public int getVisited(Coordinate c1)
@@ -79,34 +78,42 @@ namespace mrKrrabs.Solver
 
         public void AvailableMovement()
         {
-            List<Tuple<int, Movement, Coordinate>> list = new();
+            List<Tuple<int, Movement, Route>> list = new();
 
-            var top = currentPosition.Top();
+            var top = currRoute.CurrentCoordinate.Top();
             if (this.Moveable(top))
             {
-                Tuple<int, Movement, Coordinate> t = new(this.getVisited(top), Movement.UP, top);
+                bool isTreasure = mazeMap.GetElement(top) == Element.Treasure;
+                var newRoute = new Route(isTreasure, top, currRoute);
+                Tuple<int, Movement, Route> t = new(this.getVisited(top), Movement.UP, newRoute);
                 list.Add(t);
             }
 
-            var left = currentPosition.Left();
+            var left = currRoute.CurrentCoordinate.Left();
             if (this.Moveable(left))
             {
-                Tuple<int, Movement, Coordinate> l = new(this.getVisited(left), Movement.LEFT, left);
+                bool isTreasure = mazeMap.GetElement(left) == Element.Treasure;
+                var newRoute = new Route(isTreasure, left, currRoute);
+                Tuple<int, Movement, Route> l = new(this.getVisited(top), Movement.LEFT, newRoute);
                 list.Add(l);
             }
 
-            var bottom = currentPosition.Bottom();
+            var bottom = currRoute.CurrentCoordinate.Bottom();
             if (this.Moveable(bottom))
             {
-                Tuple<int, Movement, Coordinate> b = new(this.getVisited(bottom), Movement.DOWN, bottom);
+                bool isTreasure = mazeMap.GetElement(bottom) == Element.Treasure;
+                var newRoute = new Route(isTreasure, bottom, currRoute);
+                Tuple<int, Movement, Route> b= new(this.getVisited(bottom), Movement.DOWN, newRoute);
                 list.Add(b);
             }
 
-            var right = currentPosition.Right();
+            var right = currRoute.CurrentCoordinate.Right();
             if (this.Moveable(right))
             {
-                Tuple<int, Movement, Coordinate> b = new(this.getVisited(bottom), Movement.RIGHT, right);
-                list.Add(b);
+                bool isTreasure = mazeMap.GetElement(right) == Element.Treasure;
+                var newRoute = new Route(isTreasure, right, currRoute);
+                Tuple<int, Movement, Route> r = new(this.getVisited(bottom), Movement.RIGHT,newRoute);
+                list.Add(r);
             }
 
             var sorted = list.OrderByDescending(x => x.Item1).OrderByDescending(x => x.Item2).ToList();
@@ -119,19 +126,26 @@ namespace mrKrrabs.Solver
 
         public void Visit()
         {
-            Coordinate visit = available.Pop();
-            if(mazeMap.GetElement(visit) == Element.Treasure)
-            {
-                this.treasureCollected++;
-            }
-            this.setVisited(visit);
+            List<List<int>> visitedNodes;
+            Route visit = available.Pop();
+            movement.Move(visit.CurrentCoordinate);
         }
 
         public void Solve()
         {
-            while(available.Count > 0 && treasureCollected < mazeMap.TotalTreasure) {
-                AvailableMovement();
+            while (available.Count > 0 && this.currRoute.TreasureCount < mazeMap.TotalTreasure)
+            {
                 Visit();
+                AvailableMovement();
+            }
+
+            // Get route
+            // Walking backwards
+
+            // Solveable
+            if (mazeMap.TotalTreasure == this.currRoute.TreasureCount)
+            {
+                this.movement.Solved = true;
             }
         }
 

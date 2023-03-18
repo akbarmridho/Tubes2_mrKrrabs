@@ -34,6 +34,10 @@ namespace mrKrrabs.Solver
 
         public bool Moveable(Coordinate c)
         {
+            if (c.X < 0 || c.X >= mazeMap.size || c.Y < 0 || c.Y >= mazeMap.size)
+            {
+                return false;
+            }
             if (mazeMap.GetElement(c) == Element.Tunnel || mazeMap.GetElement(c) == Element.Treasure) {
                 return true;
             }
@@ -126,11 +130,5 @@ namespace mrKrrabs.Solver
                 this.movement.Solved = true;
             }
         }
-        
-        
-        
-
-
-
     }  
 }
