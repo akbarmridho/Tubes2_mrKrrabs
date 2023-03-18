@@ -45,16 +45,16 @@ namespace mrKrrabs.Solver
         {
             /* Mengecek prioritas */
             if (Moveable(this.currPosition.Top())){
-                this.available.Enqueue(this.currPosition.Top());
+                addCoordinate(this.currPosition.Top());
             }
             if (Moveable(this.currPosition.Left())) {
-                this.available.Enqueue(this.currPosition.Left());
+                addCoordinate(this.currPosition.Left());
             }
             if (Moveable(this.currPosition.Bottom())){
-                this.available.Enqueue(this.currPosition.Bottom());
+                addCoordinate(this.currPosition.Bottom());
             }
             if (Moveable(this.currPosition.Right())) {
-                this.available.Enqueue(this.currPosition.Right());
+                addCoordinate(this.currPosition.Right());
             }
         }
 
@@ -73,7 +73,7 @@ namespace mrKrrabs.Solver
 
         public void Solve()
         {
-            while(available.Count > 0 && treasureCollected < mazeMap.totalTreasure) {
+            while(available.Count > 0 && treasureCollected < mazeMap.TotalTreasure) {
                 AvailableMovement();
                 Visit();
                 
@@ -83,19 +83,12 @@ namespace mrKrrabs.Solver
             // Walking backwards
 
             // Solveable
-            if (mazeMap.totalTreasure == treasureCollected)
+            if (mazeMap.TotalTreasure == treasureCollected)
             {
                 this.movement.Solved = true;
             }
         }
-
-        public List<Coordinate> getRoute(Coordinate endPoint)
-        {
-            List<Coordinate> route;
-            // 
-            
-            return route;
-        }
+        
         
         
 
