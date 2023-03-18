@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace mrKrrabs.Solver
 {
+    public enum Element
+    {
+        KrustyKrab,
+        Treasure,
+        Tunnel,
+        Dirt
+    }
     public class MazeMap
     {
         private List<List<char>> map = new List<List<char>>();
@@ -24,5 +31,8 @@ namespace mrKrrabs.Solver
         {
             get => map;
         }
+
+        public char GetRow(int row) { }
+
     }
 }

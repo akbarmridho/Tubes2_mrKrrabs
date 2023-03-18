@@ -1,4 +1,5 @@
-﻿using System;
+﻿using mrKrrabs.Solver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,18 +9,18 @@ namespace mrKrrabs.ViewModels
 {
     public class GridViewModel : ViewModelBase
     {
-        string type;
+        Element type;
         int visitCount;
         bool visiting;
         bool isRoute;
 
-        public GridViewModel(char type)
+        public GridViewModel(Element type)
         {
-            this.type = type.ToString();
+            this.type = type;
         }
 
         public string Type {
-            get => type;
+            get => type.ToString();
         }
 
         public void visit()
