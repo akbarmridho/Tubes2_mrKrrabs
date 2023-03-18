@@ -11,7 +11,8 @@
         Title="mrKrrabs"
 		Height="720"
 		Width="1280"
-		CanResize="False">
+		CanResize="False"
+		FontFamily="/Assets/Fonts#Montserrat">
 
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
@@ -22,7 +23,7 @@
 	<StackPanel Orientation="Horizontal">
 		<Panel Height="720" Width="560" Background="RosyBrown">
 			<StackPanel Margin="40"  Orientation="Vertical">
-				<Panel Height="180" Background="Pink">
+				<Panel Height="180" Background="AliceBlue">
 						
 				</Panel>
 				<Panel Background="Azure" >
