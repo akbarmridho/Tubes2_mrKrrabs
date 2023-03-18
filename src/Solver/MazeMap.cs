@@ -16,27 +16,32 @@ namespace mrKrrabs.Solver
     public class MazeMap
     {
         private List<List<Element>> map = new List<List<Element>>();
-        public int totalTreasure;
+        public int TotalTreasure;
+        public Coordinate StartPosition;
         public int size { get; set; }
+
         public MazeMap(int size)
         {
             this.size = size;
+            this.StartPosition = new Coordinate(0, 0);
         }
 
         public void InsertRow(List<char> row)
         {
             List<Element> list = new();
+            int i = 0;
             foreach (char c in row)
             {
                 switch(c)
                 {
                     case 'K':
+                        StartPosition = new Coordinate(i, this.map.Count);
                         list.Add(Element.KrustyKrab);
                         break;
                     case 'R':
                         list.Add(Element.Tunnel); break;
                     case 'T':
-                        this.totalTreasure++;
+                        this.TotalTreasure++;
                         list.Add(Element.Treasure); break;
                     case 'X':
                         list.Add(Element.Dirt);
@@ -44,6 +49,7 @@ namespace mrKrrabs.Solver
                     default:
                         break;
                 }
+                i++;
             }
 
             this.map.Add(list);
@@ -61,10 +67,6 @@ namespace mrKrrabs.Solver
         public Element GetElement(Coordinate c)
         {
             return this.map[c.Item2][c.Item1];
-        }
-
-        public void SetElement(Coordinate c, Element element)
-        {
         }
 
     }
