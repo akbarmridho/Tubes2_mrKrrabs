@@ -15,6 +15,7 @@ namespace mrKrrabs.Solver
     }
     public class MovementHistory
     {
+        private bool solved = false;
         List<Coordinate> movements = new();
         List<Coordinate> routes = new();
         MazeMap mazeMap;
@@ -41,6 +42,12 @@ namespace mrKrrabs.Solver
             this.routes = routes;
         }
 
+        public bool Solved
+        {
+            get => solved;
+            set => solved = value;
+        }
+        
         public List<Coordinate> Routes { get => routes; }
         public List<Coordinate> Movements { get => movements; }
 

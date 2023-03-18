@@ -41,13 +41,13 @@ namespace mrKrrabs.Solver
             }
         }
 
-        public void AvaialableMovement()
+        public void AvailableMovement()
         {
             /** Mengecek prioritas terendah terlebih dulu, yaitu bagian atas **/
             if (Moveable(this.currentPosition.Top())){
                 this.available.Push(this.currentPosition.Top());
             }
-            if(Moveable(this.currentPosition.Left())) {
+            if (Moveable(this.currentPosition.Left())) {
                 this.available.Push(this.currentPosition.Left());
             }
             if (Moveable(this.currentPosition.Bottom()))
@@ -68,12 +68,13 @@ namespace mrKrrabs.Solver
             {
                 this.treasureCollected++;
             }
+            
         }
 
         public void Solve()
         {
             while(available.Count > 0 && treasureCollected < mazeMap.totalTreasure) {
-                AvaialableMovement();
+                AvailableMovement();
             }
         }
 
