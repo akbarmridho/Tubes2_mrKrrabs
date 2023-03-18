@@ -27,6 +27,11 @@ namespace mrKrrabs.Solver
             this.movements.Add(movement);
         }
 
+        public void Move(int row, int col)
+        {
+            this.movements.Add(new Coordinate(col, row));
+        }
+
         public void SetRoute(List<Coordinate> routes)
         {
             this.routes = routes;
@@ -36,5 +41,17 @@ namespace mrKrrabs.Solver
         public List<Coordinate> Movements { get => movements; }
 
         public int StepCount { get => movements.Count; }
+
+        public int GetNodeCount()
+        {
+            HashSet<Coordinate> nodes = new HashSet<Coordinate>();
+
+            foreach (Coordinate node in this.routes)
+            {
+                nodes.Add(node);
+            }
+
+            return nodes.Count;
+        }
     }
 }
