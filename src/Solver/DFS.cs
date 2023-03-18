@@ -9,11 +9,12 @@ namespace mrKrrabs.Solver
     public class DFS : ISolver
     {
         private MazeMap mazeMap;
-        private MovementHistory movement = new();
+        private MovementHistory movement;
         private Stack<Coordinate> available = new();
         private Coordinate currentPosition; 
         public DFS(MazeMap m) {
             this.mazeMap = m;
+            this.movement = new(m);
             this.currentPosition = new Coordinate(0, 0);
         }
 

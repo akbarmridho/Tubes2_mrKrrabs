@@ -9,13 +9,16 @@ namespace mrKrrabs.Solver
 {
     public class ExampleResult : ISolver
     {
-        public ExampleResult() { }
+        MazeMap mazeMap;
+        public ExampleResult(MazeMap m) {
+            this.mazeMap = m;
+        }
 
         public MovementHistory getResult()
         {
-            MovementHistory history = new();
+            MovementHistory history = new(this.mazeMap);
 
-            history.Move(new Coordinate(0, 0));
+            history.Move(0, 0);
             history.Move(0, 1);
             history.Move(1, 1);
             history.Move(2, 1);
@@ -27,12 +30,13 @@ namespace mrKrrabs.Solver
 
             List<Coordinate> route = new()
             {
-                new Coordinate(0, 1),
+                new Coordinate(0, 0),
+                new Coordinate(1, 0),
                 new Coordinate(1, 1),
-                new Coordinate(2, 1),
+                new Coordinate(1, 2),
                 new Coordinate(2, 2),
-                new Coordinate(2, 3),
-                new Coordinate(1, 3)
+                new Coordinate(3, 2),
+                new Coordinate(3, 1)
             };
 
             history.SetRoute(route);

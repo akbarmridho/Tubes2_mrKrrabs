@@ -17,10 +17,14 @@ namespace mrKrrabs.Solver
     {
         List<Coordinate> movements = new();
         List<Coordinate> routes = new();
+        MazeMap mazeMap;
 
-        public MovementHistory()
+        public MovementHistory(MazeMap mazeMap)
         {
+            this.mazeMap = mazeMap;
         }
+
+        public MazeMap Maze { get { return mazeMap; } }
 
         public void Move(Coordinate movement)
         {
