@@ -25,9 +25,30 @@ namespace mrKrrabs.Solver
             return false;
         }
 
+        public int X { get => Item1; }
+        public int Y { get => Item2; }
+
         public override int GetHashCode()
         {
             return (Item1, Item2).GetHashCode();
         }
+
+        public Coordinate Top()
+        {
+            return new Coordinate(this.X, this.Y - 1);
+        }
+        public Coordinate Bottom()
+        {
+            return new Coordinate(this.X, this.Y + 1);
+        }
+        public Coordinate Left()
+        {
+            return new Coordinate(this.X-1, this.Y);
+        }
+        public Coordinate Right()
+        {
+            return new Coordinate(this.X+1, this.Y);
+        }
     }
+
 }

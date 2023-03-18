@@ -11,11 +11,12 @@ namespace mrKrrabs.Solver
         KrustyKrab,
         Treasure,
         Tunnel,
-        Dirt
+        Dirt 
     }
     public class MazeMap
     {
         private List<List<Element>> map = new List<List<Element>>();
+        public int totalTreasure;
         public int size { get; set; }
         public MazeMap(int size)
         {
@@ -35,6 +36,7 @@ namespace mrKrrabs.Solver
                     case 'R':
                         list.Add(Element.Tunnel); break;
                     case 'T':
+                        this.totalTreasure++;
                         list.Add(Element.Treasure); break;
                     case 'X':
                         list.Add(Element.Dirt);
@@ -59,6 +61,10 @@ namespace mrKrrabs.Solver
         public Element GetElement(Coordinate c)
         {
             return this.map[c.Item2][c.Item1];
+        }
+
+        public void SetElement(Coordinate c, Element element)
+        {
         }
 
     }

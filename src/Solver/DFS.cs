@@ -26,11 +26,39 @@ namespace mrKrrabs.Solver
             return this.movement;
         }
 
+        public bool Moveable(Coordinate c)
+        {
+            if(mazeMap.GetElement(c) == Element.Tunnel || mazeMap.GetElement(c) == Element.Treasure)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public void AvaialableMovement()
         {
-            /** Mengecek prioritas terendah terlebih dulu **/
-            
+            /** Mengecek prioritas terendah terlebih dulu, yaitu bagian atas **/
+            if (Moveable(this.currentPosition.Top())){
+                this.available.Push(this.currentPosition.Top());
+            }
+            if(Moveable(this.currentPosition.Left())) {
+                this.available.Push(this.currentPosition.Left());
+            }
+            if (Moveable(this.currentPosition.Bottom()))
+            {
+                this.available.Push(this.currentPosition.Bottom());
+            }
+
+            if (Moveable(this.currentPosition.Right()))
+            {
+                this.available.Push(this.currentPosition.Right());
+            }
         }
+
+
 
     }
 }
