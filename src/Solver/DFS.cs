@@ -84,28 +84,28 @@ namespace mrKrrabs.Solver
             var top = currentPosition.Top();
             if (this.Moveable(top))
             {
-                Tuple<int, Movement, Coordinate> t = new(this.getVisisted(top), Movement.UP, top);
+                Tuple<int, Movement, Coordinate> t = new(this.getVisited(top), Movement.UP, top);
                 list.Add(t);
             }
 
             var left = currentPosition.Left();
             if (this.Moveable(left))
             {
-                Tuple<int, Movement, Coordinate> l = new(this.getVisisted(left), Movement.LEFT, left);
+                Tuple<int, Movement, Coordinate> l = new(this.getVisited(left), Movement.LEFT, left);
                 list.Add(l);
             }
 
             var bottom = currentPosition.Bottom();
             if (this.Moveable(bottom))
             {
-                Tuple<int, Movement, Coordinate> b = new(this.getVisisted(bottom), Movement.DOWN, bottom);
+                Tuple<int, Movement, Coordinate> b = new(this.getVisited(bottom), Movement.DOWN, bottom);
                 list.Add(b);
             }
 
             var right = currentPosition.Right();
             if (this.Moveable(right))
             {
-                Tuple<int, Movement, Coordinate> b = new(this.getVisisted(bottom), Movement.RIGHT, right);
+                Tuple<int, Movement, Coordinate> b = new(this.getVisited(bottom), Movement.RIGHT, right);
                 list.Add(b);
             }
 

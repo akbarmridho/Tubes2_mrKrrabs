@@ -7,6 +7,7 @@ namespace mrKrrabs.Solver
     public class Route
     {
         // Attributes
+        private int treasureCount;
         private bool isTreasure;
         private Coordinate currCoordinate;
         private List<Tuple<bool,Coordinate>> prevCoordinate = new();
@@ -20,6 +21,11 @@ namespace mrKrrabs.Solver
         {
             get => currCoordinate;
         }
+        
+        public int TreasureCount
+        {
+            get => treasureCount;
+        }
 
         public List<Tuple<bool, Coordinate>> PrevCoordinates
         {
@@ -28,6 +34,15 @@ namespace mrKrrabs.Solver
         public Route(bool isTreasure, Coordinate coordinate)
         {
             this.isTreasure = isTreasure;
+
+            if (this.isTreasure)
+            {
+                this.treasureCount = 1;
+            }
+            else
+            {
+                this.treasureCount = 0;
+            }
             currCoordinate = coordinate;
         }
 
@@ -36,6 +51,15 @@ namespace mrKrrabs.Solver
         public Route(bool isTreasure, Coordinate c, Route prev)
         {
             this.isTreasure = isTreasure;
+
+            if (this.isTreasure)
+            {
+                treasureCount = prev.TreasureCount + 1;
+            }
+            else
+            {
+                treasureCount = prev.TreasureCount;
+            }
             currCoordinate = c;
             prevCoordinate = new(prev.PrevCoordinates);
             prevCoordinate.Add(new(prev.isTreasure, prev.CurrentCoordinate));

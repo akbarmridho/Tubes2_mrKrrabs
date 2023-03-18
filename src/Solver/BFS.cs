@@ -9,17 +9,16 @@ namespace mrKrrabs.Solver
         private MazeMap mazeMap;
         private MovementHistory movement;
         private Queue<Route> available = new();
-        private Coordinate currPosition;
+        private List<List<int>> visitedCount = new();
         private Route currRoute;
-        private int treasureCollected;
+        // private int treasureCollected;
         
         // Methods
         public BFS(MazeMap m)
         {
             this.mazeMap = m;
             this.movement = new MovementHistory(m);
-            this.currPosition = new Coordinate(0, 0);
-            this.treasureCollected = 0;
+            // this.treasureCollected = 0;
             addCoordinate(new Route(false, m.StartPosition));
         }
 
@@ -42,35 +41,58 @@ namespace mrKrrabs.Solver
                 return false;
             }
         }
+        
+        public void setVisited(Coordinate c)
+        {
+            this.visitedCount[c.X][c.Y]++;
+        }
+        
+        public int getVisited(Coordinate c1)
+        {
+            return this.visitedCount[c1.Y][c1.X];
+        }
 
         public void AvailableMovement()
         {
-            /* Mengecek prioritas */
+            List<Tuple<int, Movement, Route>> list = new();
             
-            if (Moveable(this.currPosition.Top())){
-                Coordinate p = this.currPosition.Top();
-                bool isTreasure = mazeMap.GetElement(p) == Element.Treasure;
-                var newRoute = new Route(isTreasure, p, currRoute);
-                addCoordinate(newRoute);
+            var top = currRoute.CurrentCoordinate.Top();
+            if (this.Moveable(top))
+            {
+                bool isTreasure = mazeMap.GetElement(top) == Element.Treasure;
+                var newRoute = new Route(isTreasure, top, currRoute);
+                Tuple<int, Movement, Route> t = new(this.getVisited(top), Movement.UP, newRoute);
+                list.Add(t);
             }
-            if (Moveable(this.currPosition.Left())) {
-                Coordinate p = this.currPosition.Top();
-                bool isTreasure = mazeMap.GetElement(p) == Element.Treasure;
-                var newRoute = new Route(isTreasure, p, currRoute);
-                addCoordinate(newRoute);
+            
+            var left = currRoute.CurrentCoordinate.Left();
+            if (this.Moveable(left))
+            {
+                bool isTreasure = mazeMap.GetElement(left) == Element.Treasure;
+                var newRoute = new Route(isTreasure, left, currRoute);
+                Tuple<int, Movement, Route> t = new(this.getVisited(top), Movement.LEFT, newRoute);
+                list.Add(t);
             }
-            if (Moveable(this.currPosition.Bottom())){
-                Coordinate p = this.currPosition.Top();
-                bool isTreasure = mazeMap.GetElement(p) == Element.Treasure;
-                var newRoute = new Route(isTreasure, p, currRoute);
-                addCoordinate(newRoute);
+            
+            var bottom = currRoute.CurrentCoordinate.Bottom();
+            if (this.Moveable(bottom))
+            {
+                bool isTreasure = mazeMap.GetElement(bottom) == Element.Treasure;
+                var newRoute = new Route(isTreasure, bottom, currRoute);
+                Tuple<int, Movement, Route> t = new(this.getVisited(top), Movement.DOWN, newRoute);
+                list.Add(t);
             }
-            if (Moveable(this.currPosition.Right())) {
-                Coordinate p = this.currPosition.Top();
-                bool isTreasure = mazeMap.GetElement(p) == Element.Treasure;
-                var newRoute = new Route(isTreasure, p, currRoute);
-                addCoordinate(newRoute);
+            
+            var right = currRoute.CurrentCoordinate.Right();
+            if (this.Moveable(right))
+            {
+                bool isTreasure = mazeMap.GetElement(right) == Element.Treasure;
+                var newRoute = new Route(isTreasure, right, currRoute);
+                Tuple<int, Movement, Route> t = new(this.getVisited(right), Movement.RIGHT, newRoute);
+                list.Add(t);
             }
+            
+            
         }
 
         public void Visit()
@@ -78,16 +100,19 @@ namespace mrKrrabs.Solver
             List<List<int>> visitedNodes;
             Route visit = available.Dequeue();
             
+            /*
             if (mazeMap.GetElement(visit.CurrentCoordinate) == Element.Treasure)
             {
+                
                 this.treasureCollected++;
             }
+            */
             movement.Move(visit.CurrentCoordinate);
         }
 
         public void Solve()
         {
-            while(available.Count > 0 && treasureCollected < mazeMap.TotalTreasure) {
+            while(available.Count > 0 && this.currRoute.TreasureCount < mazeMap.TotalTreasure) {
                 Visit();
                 AvailableMovement();
             }
@@ -96,7 +121,7 @@ namespace mrKrrabs.Solver
             // Walking backwards
 
             // Solveable
-            if (mazeMap.TotalTreasure == treasureCollected)
+            if (mazeMap.TotalTreasure == this.currRoute.TreasureCount)
             {
                 this.movement.Solved = true;
             }
