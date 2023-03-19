@@ -27,10 +27,10 @@ namespace mrKrrabs.Solver
                 }
                 this.visitedCount.Add(list2);
             }
-            addCoordinate(new Route(false, m.StartPosition));
+            AddCoordinate(new Route(false, m.StartPosition));
         }
 
-        public void addCoordinate(Route coord)
+        private void AddCoordinate(Route coord)
         {
             this.available.Push(coord);
         }
@@ -39,9 +39,9 @@ namespace mrKrrabs.Solver
             return this.movement;
         }
 
-       
 
-        public bool Moveable(Coordinate c)
+
+        private bool Moveable(Coordinate c)
         {
             if(c.X < 0 || c.X >= mazeMap.size || c.Y < 0 || c.Y >= mazeMap.size)
             {
@@ -57,17 +57,17 @@ namespace mrKrrabs.Solver
                 return false;
             }
         }
-        public void setVisited(Coordinate c)
+        private void setVisited(Coordinate c)
         {
             this.visitedCount[c.X][c.Y]++;
         }
 
-        public int getVisited(Coordinate c1)
+        private int getVisited(Coordinate c1)
         {
             return this.visitedCount[c1.Y][c1.X];
         }
 
-        public bool checkPriority(Coordinate c1, Coordinate c2)
+        private bool checkPriority(Coordinate c1, Coordinate c2)
         {
             if(getVisited(c1) < getVisited(c2))
             {
@@ -76,7 +76,7 @@ namespace mrKrrabs.Solver
             return false;
         }
 
-        public void AvailableMovement()
+        private void AvailableMovement()
         {
             List<Tuple<int, Movement, Route>> list = new();
 
@@ -124,7 +124,7 @@ namespace mrKrrabs.Solver
             }
         }
 
-        public void Visit()
+        private void Visit()
         {
             List<List<int>> visitedNodes;
             Route visit = available.Pop();

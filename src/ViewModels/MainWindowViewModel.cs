@@ -23,10 +23,22 @@ public class MainWindowViewModel : ViewModelBase
             var watch = new System.Diagnostics.Stopwatch();
 
             watch.Start();
-            var Example = new ExampleResult(Models.Map);
+
+            MovementHistory Result;
+
+            if (Models.Algorithm == mrKrrabs.Models.AvailableAlgorithm.DFS)
+            {
+                var dfs = new DFS(Models.Map);
+                dfs.Solve();
+                Result = dfs.getResult();
+            } else
+            {
+                var Example = new ExampleResult(Models.Map);
+                Result = Example.getResult();
+            }
             watch.Stop();
 
-            var Result = Example.getResult();
+            
             Content = new ResultViewModel(Result, watch.ElapsedMilliseconds, Models.Algorithm == mrKrrabs.Models.AvailableAlgorithm.DFS, Models.UseTsp);
             var mazeView = new MazeViewModel(Result);
             MazePanel = mazeView;
