@@ -33,8 +33,9 @@ public class MainWindowViewModel : ViewModelBase
                 Result = dfs.getResult();
             } else
             {
-                var Example = new ExampleResult(Models.Map);
-                Result = Example.getResult();
+                var bfs = new BFS(Models.Map);
+                bfs.Solve();
+                Result = bfs.getResult();
             }
             watch.Stop();
 
