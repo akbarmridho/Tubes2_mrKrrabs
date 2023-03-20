@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,8 @@ namespace mrKrrabs.Solver
                 this.visitedCount.Add(list2);
             }
             AddCoordinate(new Route(false, m.StartPosition));
+            //Visit();
+            //this.currRoute = new Route(false, m.StartPosition);
         }
 
         private void AddCoordinate(Route coord)
@@ -59,21 +62,12 @@ namespace mrKrrabs.Solver
         }
         private void setVisited(Coordinate c)
         {
-            this.visitedCount[c.X][c.Y]++;
+            this.visitedCount[c.Y][c.X]++;
         }
 
         private int getVisited(Coordinate c1)
         {
             return this.visitedCount[c1.Y][c1.X];
-        }
-
-        private bool checkPriority(Coordinate c1, Coordinate c2)
-        {
-            if(getVisited(c1) < getVisited(c2))
-            {
-                return true;
-            }
-            return false;
         }
 
         private void AvailableMovement()
@@ -94,7 +88,7 @@ namespace mrKrrabs.Solver
             {
                 bool isTreasure = mazeMap.GetElement(left) == Element.Treasure;
                 var newRoute = new Route(isTreasure, left, currRoute);
-                Tuple<int, Movement, Route> l = new(this.getVisited(top), Movement.LEFT, newRoute);
+                Tuple<int, Movement, Route> l = new(this.getVisited(left), Movement.LEFT, newRoute);
                 list.Add(l);
             }
 
@@ -112,11 +106,11 @@ namespace mrKrrabs.Solver
             {
                 bool isTreasure = mazeMap.GetElement(right) == Element.Treasure;
                 var newRoute = new Route(isTreasure, right, currRoute);
-                Tuple<int, Movement, Route> r = new(this.getVisited(bottom), Movement.RIGHT,newRoute);
+                Tuple<int, Movement, Route> r = new(this.getVisited(right), Movement.RIGHT,newRoute);
                 list.Add(r);
             }
 
-            var sorted = list.OrderByDescending(x => x.Item1).OrderByDescending(x => x.Item2).ToList();
+            var sorted = list.OrderByDescending(x => x.Item1).ThenByDescending(x => x.Item2).ToList();
 
             foreach(var e in sorted)
             {
@@ -126,18 +120,19 @@ namespace mrKrrabs.Solver
 
         private void Visit()
         {
-            List<List<int>> visitedNodes;
-            Route visit = available.Pop();
-            movement.Move(visit.CurrentCoordinate);
+            this.currRoute = available.Pop();
+            setVisited(this.currRoute.CurrentCoordinate);
+            movement.Move(currRoute.CurrentCoordinate);
+            AvailableMovement();
         }
 
         public void Solve()
         {
-            while (available.Count > 0 && this.currRoute.TreasureCount < mazeMap.TotalTreasure)
+            do
             {
                 Visit();
-                AvailableMovement();
-            }
+            } while (available.Count > 0 && this.currRoute.TreasureCount < mazeMap.TotalTreasure);
+   
 
             // Get route
             // Walking backwards
@@ -146,6 +141,10 @@ namespace mrKrrabs.Solver
             if (mazeMap.TotalTreasure == this.currRoute.TreasureCount)
             {
                 this.movement.Solved = true;
+                var routes = currRoute.PrevCoordinates.ToList();
+                routes.Add(new(currRoute.IsTreasure, currRoute.CurrentCoordinate));
+
+                this.movement.SetRoute(routes.Select(x => x.Item2).ToList());
             }
         }
 

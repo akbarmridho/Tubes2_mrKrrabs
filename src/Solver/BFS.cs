@@ -19,7 +19,8 @@ namespace mrKrrabs.Solver
             this.mazeMap = m;
             this.movement = new MovementHistory(m);
             // this.treasureCollected = 0;
-            addCoordinate(new Route(false, m.StartPosition));
+            //addCoordinate(new Route(false, m.StartPosition));
+            this.currRoute = new Route(false, m.StartPosition);
         }
 
         public void addCoordinate(Route route)

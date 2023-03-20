@@ -37,7 +37,7 @@ public partial class FormView : ReactiveUserControl<FormViewModel>
                 Title = "Map files",
                 Filters = filters,
                 AllowMultiple = false,
-                Directory = Directory.GetCurrentDirectory(),
+                //Directory = Directory.GetCurrentDirectory(),
             };
 
             var results = await dialog.ShowAsync(desktop.MainWindow);
