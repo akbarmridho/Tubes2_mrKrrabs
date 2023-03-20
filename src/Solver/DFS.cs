@@ -7,29 +7,11 @@ using System.Threading.Tasks;
 
 namespace mrKrrabs.Solver
 {
-    public class DFS : ISolver
+    public class DFS : BaseSolver
     {
-        private MazeMap mazeMap;
-        private MovementHistory movement;
+       
         private Stack<Route> available = new();
-        private List<List<int>> visitedCount = new();
-        private Route currRoute;
-        private Coordinate lastCoordinate;
-        private Movement lastMove;
-        public DFS(MazeMap m) {
-            this.mazeMap = m;
-            this.movement = new(m);
-
-            /** Mengisi visitedCount dengan angka 0 **/
-            for(int i = 0; i < m.size; i++)
-            {
-                List<int> list2 = new List<int>();
-                for(int j = 0; j < m.size; j++)
-                {
-                    list2.Add(0);
-                }
-                this.visitedCount.Add(list2);
-            }
+        public DFS(MazeMap m) : base(m) {
             AddCoordinate(new Route(false, m.StartPosition));
         }
 
@@ -38,76 +20,9 @@ namespace mrKrrabs.Solver
             this.available.Push(coord);
         }
 
-        public MovementHistory getResult() {
-            return this.movement;
-        }
-
-        private bool Moveable(Coordinate c)
+        protected override void AddAvailableMovement(Route route)
         {
-            if(c.X < 0 || c.X >= mazeMap.size || c.Y < 0 || c.Y >= mazeMap.size)
-            {
-                return false;
-            }
-
-            if(mazeMap.GetElement(c) == Element.Tunnel || mazeMap.GetElement(c) == Element.Treasure)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        private void setVisited(Coordinate c)
-        {
-            this.visitedCount[c.Y][c.X]++;
-        }
-
-        private int getVisited(Coordinate c1)
-        {
-            return this.visitedCount[c1.Y][c1.X];
-        }
-
-        private void AvailableMovement()
-        {
-            List<Tuple<int, Movement, Route>> list = new();
-
-            var top = currRoute.CurrentCoordinate.Top();
-            if (this.Moveable(top))
-            {
-                bool isTreasure = mazeMap.GetElement(top) == Element.Treasure;
-                var newRoute = new Route(isTreasure, top, currRoute);
-                Tuple<int, Movement, Route> t = new(this.getVisited(top), Movement.UP, newRoute);
-                list.Add(t);
-            }
-
-            var left = currRoute.CurrentCoordinate.Left();
-            if (this.Moveable(left))
-            {
-                bool isTreasure = mazeMap.GetElement(left) == Element.Treasure;
-                var newRoute = new Route(isTreasure, left, currRoute);
-                Tuple<int, Movement, Route> l = new(this.getVisited(left), Movement.LEFT, newRoute);
-                list.Add(l);
-            }
-
-            var bottom = currRoute.CurrentCoordinate.Bottom();
-            if (this.Moveable(bottom))
-            {
-                bool isTreasure = mazeMap.GetElement(bottom) == Element.Treasure;
-                var newRoute = new Route(isTreasure, bottom, currRoute);
-                Tuple<int, Movement, Route> b= new(this.getVisited(bottom), Movement.DOWN, newRoute);
-                list.Add(b);
-            }
-
-            var right = currRoute.CurrentCoordinate.Right();
-            if (this.Moveable(right))
-            {
-                bool isTreasure = mazeMap.GetElement(right) == Element.Treasure;
-                var newRoute = new Route(isTreasure, right, currRoute);
-                Tuple<int, Movement, Route> r = new(this.getVisited(right), Movement.RIGHT,newRoute);
-                list.Add(r);
-            }
-
+            var list = AvailableMovement(route);
             var sorted = list.OrderByDescending(x => x.Item1).ThenByDescending(x => x.Item2).ToList();
 
             foreach(var e in sorted)
@@ -122,21 +37,16 @@ namespace mrKrrabs.Solver
             }
         }
 
-        private void Visit()
+        protected override void Visit()
         {
-            if(this.currRoute != null)
-            {
-                this.lastCoordinate = this.currRoute.CurrentCoordinate;
-            }
-            
+
             this.currRoute = available.Pop();
             setVisited(this.currRoute.CurrentCoordinate);
             movement.Move(currRoute.CurrentCoordinate);
-            
-            AvailableMovement();
+            AddAvailableMovement(currRoute);
         }
 
-        public void Solve()
+        public override void Solve()
         {
             do
             {
