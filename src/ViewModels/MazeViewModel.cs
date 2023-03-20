@@ -37,7 +37,7 @@ namespace mrKrrabs.ViewModels
             Coordinate prev = new(0, 0);
             for (int i = 0; i < history.Movements.Count; i++)
             {
-                await Task.Delay(500);
+                await Task.Delay(200);
                 var c = history.Movements[i];
 
                 if (i != 0)
@@ -49,7 +49,7 @@ namespace mrKrrabs.ViewModels
             }
             Maze[rowColToIdx(prev.Item2, prev.Item1)].DisableVisiting();
 
-            await Task.Delay(1000);
+            await Task.Delay(500);
             foreach (var grid in Maze)
             {
                 grid.SetNotRoute();
