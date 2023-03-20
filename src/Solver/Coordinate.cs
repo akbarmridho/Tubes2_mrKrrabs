@@ -49,6 +49,15 @@ namespace mrKrrabs.Solver
         {
             return new Coordinate(this.X+1, this.Y);
         }
+        
+        public static bool operator ==(Coordinate c1, Coordinate c2)
+        {
+            return (c1.Equals(c2));
+        }
+        public static bool operator !=(Coordinate c1, Coordinate c2)
+        {
+            return !(c1.Equals(c2));
+        }
     }
 
 }
