@@ -18,7 +18,7 @@ namespace mrKrrabs.Solver
             this.mazeMap = m;
             this.movement = new(m);
 
-            /** Mengisi visitiedCount dengan angka 0 **/
+            /** Mengisi visitedCount dengan angka 0 **/
             for(int i = 0; i < m.size; i++)
             {
                 List<int> list2 = new List<int>();
@@ -29,8 +29,6 @@ namespace mrKrrabs.Solver
                 this.visitedCount.Add(list2);
             }
             AddCoordinate(new Route(false, m.StartPosition));
-            //Visit();
-            //this.currRoute = new Route(false, m.StartPosition);
         }
 
         private void AddCoordinate(Route coord)
@@ -41,8 +39,6 @@ namespace mrKrrabs.Solver
         public MovementHistory getResult() {
             return this.movement;
         }
-
-
 
         private bool Moveable(Coordinate c)
         {
@@ -114,7 +110,11 @@ namespace mrKrrabs.Solver
 
             foreach(var e in sorted)
             {
-                this.available.Push(e.Item3);
+                if(e.Item3.CurrentCoordinate != this.currRoute.PrevCoordinate())
+                {
+                    this.available.Push(e.Item3);
+                }
+                
             }
         }
 

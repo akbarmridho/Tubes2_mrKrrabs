@@ -10,7 +10,7 @@ namespace mrKrrabs.Solver
         private int treasureCount;
         private bool isTreasure;
         private Coordinate currCoordinate;
-        private List<Tuple<bool,Coordinate>> prevCoordinate = new();
+        private List<Tuple<bool, Coordinate>> prevCoordinate = new();
 
         public bool IsTreasure
         {
@@ -21,12 +21,19 @@ namespace mrKrrabs.Solver
         {
             get => currCoordinate;
         }
-        
+
         public int TreasureCount
         {
             get => treasureCount;
         }
-
+        public Coordinate PrevCoordinate()
+        {
+            if(this.prevCoordinate.Count != 0)
+            {
+                return this.prevCoordinate[0].Item2;
+            }
+            return null;
+        }
         public List<Tuple<bool, Coordinate>> PrevCoordinates
         {
             get => prevCoordinate;
