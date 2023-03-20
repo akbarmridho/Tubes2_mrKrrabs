@@ -11,7 +11,7 @@ namespace mrKrrabs.Solver
     {
        
         private Stack<Route> available = new();
-        public DFS(MazeMap m) : base(m) {
+        public DFS(MazeMap m, bool TSP) : base(m, TSP) {
             AddCoordinate(new Route(false, m.StartPosition));
         }
 
@@ -52,10 +52,8 @@ namespace mrKrrabs.Solver
             {
                 Visit();
             } while (available.Count > 0 && this.currRoute.TreasureCount < mazeMap.TotalTreasure);
-   
-
+            
             // Get route
-            // Walking backwards
 
             // Solveable
             if (mazeMap.TotalTreasure == this.currRoute.TreasureCount)
@@ -67,6 +65,5 @@ namespace mrKrrabs.Solver
                 this.movement.SetRoute(routes.Select(x => x.Item2).ToList());
             }
         }
-
     }
 }

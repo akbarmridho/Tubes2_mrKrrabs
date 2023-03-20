@@ -67,8 +67,5 @@ namespace mrKrrabs.Solver
             prevCoordinate = new(prev.PrevCoordinates);
             prevCoordinate.Add(new(prev.isTreasure, prev.CurrentCoordinate));
         }
-        
-        
-        
     }
 }

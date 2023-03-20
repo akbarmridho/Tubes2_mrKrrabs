@@ -11,12 +11,14 @@ public abstract class BaseSolver : ISolver
     protected MovementHistory movement;
     private List<List<int>> visitedCount = new();
     protected Route currRoute;
+    protected bool TSP; 
     
     // Method
-    public BaseSolver(MazeMap m)
+    public BaseSolver(MazeMap m, bool TSP)
     {
         this.mazeMap = m;
         this.movement = new(m);
+        this.TSP = TSP;
 
         /* Mengisi visitiedCount dengan angka 0 */
         for(int i = 0; i < m.size; i++)
@@ -42,7 +44,7 @@ public abstract class BaseSolver : ISolver
             return false;
         }
 
-        if(mazeMap.GetElement(c) == Element.Tunnel || mazeMap.GetElement(c) == Element.Treasure)
+        if (mazeMap.GetElement(c) == Element.Tunnel || mazeMap.GetElement(c) == Element.Treasure || mazeMap.GetElement(c) == Element.KrustyKrab)
         {
             return true;
         }
