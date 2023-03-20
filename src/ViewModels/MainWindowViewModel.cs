@@ -26,17 +26,17 @@ public class MainWindowViewModel : ViewModelBase
 
             MovementHistory Result = (new ExampleResult(Models.Map)).getResult();
 
-            //if (Models.Algorithm == mrKrrabs.Models.AvailableAlgorithm.DFS)
-            //{
-            //    var dfs = new DFS(Models.Map);
-            //    dfs.Solve();
-            //    Result = dfs.getResult();
-            //} else
-            //{
-            //    var bfs = new BFS(Models.Map);
-            //    bfs.Solve();
-            //    Result = bfs.getResult();
-            //}
+            if (Models.Algorithm == mrKrrabs.Models.AvailableAlgorithm.DFS)
+            {
+                var dfs = new DFS(Models.Map);
+                dfs.Solve();
+                Result = dfs.getResult();
+            } else
+            {
+                var bfs = new BFS(Models.Map);
+                bfs.Solve();
+                Result = bfs.getResult();
+            }
             watch.Stop();
 
             

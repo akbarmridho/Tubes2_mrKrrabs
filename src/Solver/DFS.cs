@@ -14,6 +14,7 @@ namespace mrKrrabs.Solver
         private Stack<Route> available = new();
         private List<List<int>> visitedCount = new();
         private Route currRoute;
+        private Coordinate lastCoordinate;
         public DFS(MazeMap m) {
             this.mazeMap = m;
             this.movement = new(m);
@@ -110,16 +111,20 @@ namespace mrKrrabs.Solver
 
             foreach(var e in sorted)
             {
-                if(e.Item3.CurrentCoordinate != this.currRoute.PrevCoordinate())
+                if(e.Item3.CurrentCoordinate != this.lastCoordinate)
                 {
                     this.available.Push(e.Item3);
                 }
-                
             }
         }
 
         private void Visit()
         {
+            if(this.currRoute != null)
+            {
+                this.lastCoordinate = this.currRoute.CurrentCoordinate;
+            }
+            
             this.currRoute = available.Pop();
             setVisited(this.currRoute.CurrentCoordinate);
             movement.Move(currRoute.CurrentCoordinate);
