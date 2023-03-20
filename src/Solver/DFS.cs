@@ -15,6 +15,7 @@ namespace mrKrrabs.Solver
         private List<List<int>> visitedCount = new();
         private Route currRoute;
         private Coordinate lastCoordinate;
+        private Movement lastMove;
         public DFS(MazeMap m) {
             this.mazeMap = m;
             this.movement = new(m);
@@ -111,10 +112,13 @@ namespace mrKrrabs.Solver
 
             foreach(var e in sorted)
             {
-                if(e.Item3.CurrentCoordinate != this.lastCoordinate)
+                var temp = currRoute.PrevCoordinate();
+                if (e.Item3.CurrentCoordinate == currRoute.PrevCoordinate() && sorted.Count > 1) 
                 {
-                    this.available.Push(e.Item3);
+                    continue;
                 }
+                this.available.Push(e.Item3);
+              
             }
         }
 
@@ -128,6 +132,7 @@ namespace mrKrrabs.Solver
             this.currRoute = available.Pop();
             setVisited(this.currRoute.CurrentCoordinate);
             movement.Move(currRoute.CurrentCoordinate);
+            
             AvailableMovement();
         }
 

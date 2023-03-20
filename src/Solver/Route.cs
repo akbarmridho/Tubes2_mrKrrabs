@@ -28,9 +28,9 @@ namespace mrKrrabs.Solver
         }
         public Coordinate PrevCoordinate()
         {
-            if(this.prevCoordinate.Count != 0)
+            if(this.prevCoordinate.Count >= 1)
             {
-                return this.prevCoordinate[0].Item2;
+                return this.prevCoordinate[prevCoordinate.Count-1].Item2;
             }
             return null;
         }
