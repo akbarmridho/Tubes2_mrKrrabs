@@ -51,9 +51,9 @@ namespace mrKrrabs.Solver
         public List<Coordinate> Routes { get => routes; }
         public List<Coordinate> Movements { get => movements; }
 
-        public int StepCount { get => movements.Count; }
+        public int NodeCount { get => movements.Count; }
 
-        public int GetNodeCount()
+        public int GetStepCount()
         {
             HashSet<Coordinate> nodes = new HashSet<Coordinate>();
 
@@ -62,7 +62,12 @@ namespace mrKrrabs.Solver
                 nodes.Add(node);
             }
 
-            return nodes.Count;
+            if (nodes.Count <= 2)
+            {
+                return 0;
+            }
+
+            return nodes.Count - 2; // selisih untuk start point dan endpoint
         }
 
         public static Movement GetDirection(Coordinate start, Coordinate end)

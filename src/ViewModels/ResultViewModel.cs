@@ -21,8 +21,8 @@ namespace mrKrrabs.ViewModels
         public ResultViewModel(MovementHistory result, float timeExec, bool useDfs, bool useTsp)
         {
             this.result = result;
-            this.StepCount = result.StepCount;
-            this.NodeCount = result.GetNodeCount();
+            this.StepCount = result.GetStepCount();
+            this.NodeCount = result.NodeCount;
 
             if (timeExec > 1000)
             {
