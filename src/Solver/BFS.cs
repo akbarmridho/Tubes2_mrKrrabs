@@ -53,6 +53,9 @@ namespace mrKrrabs.Solver
                 // TSP
                 if (this.TSP)
                 {
+                    // Clear Queue
+                    available.Clear();
+                    AddAvailableMovement(currRoute);
                     do
                     {
                         Visit();
