@@ -24,7 +24,7 @@ public class MainWindowViewModel : ViewModelBase
 
             watch.Start();
 
-            MovementHistory Result = (new ExampleResult(Models.Map)).getResult();
+            MovementHistory Result;
 
             if (Models.Algorithm == mrKrrabs.Models.AvailableAlgorithm.DFS)
             {

@@ -37,7 +37,7 @@ namespace mrKrrabs.ViewModels
             Coordinate prev = new(0, 0);
             for (int i = 0; i < history.Movements.Count; i++)
             {
-                await Task.Delay(200);
+                await Task.Delay(500);
                 var c = history.Movements[i];
 
                 if (i != 0)
