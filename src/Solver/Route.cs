@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection.PortableExecutable;
 
 namespace mrKrrabs.Solver
@@ -7,8 +8,12 @@ namespace mrKrrabs.Solver
     public class Route
     {
         // Attributes
-        private int treasureCount;
+        private int treasureCount
+        {
+            get => treasures.Count;
+        }
         private bool isTreasure;
+        private HashSet<Coordinate> treasures;
         private Coordinate currCoordinate;
         private List<Tuple<bool, Coordinate>> prevCoordinate = new();
 
@@ -28,9 +33,9 @@ namespace mrKrrabs.Solver
         }
         public Coordinate PrevCoordinate()
         {
-            if(this.prevCoordinate.Count >= 1)
-            {
-                return this.prevCoordinate[prevCoordinate.Count-1].Item2;
+            int temp = prevCoordinate.Count;
+            if(temp > 0) {
+                return this.prevCoordinate[this.prevCoordinate.Count - 1].Item2;
             }
             return null;
         }
@@ -41,39 +46,30 @@ namespace mrKrrabs.Solver
         public Route(bool isTreasure, Coordinate coordinate)
         {
             this.isTreasure = isTreasure;
+            this.treasures = new();
 
             if (this.isTreasure)
             {
-                this.treasureCount = 1;
-            }
-            else
-            {
-                this.treasureCount = 0;
+                this.treasures.Add(coordinate);
+                
             }
             currCoordinate = coordinate;
         }
 
         // Methods
-
         public Route(bool isTreasure, Coordinate c, Route prev)
         {
             this.isTreasure = isTreasure;
+            this.treasures = new(prev.treasures);
 
             if (this.isTreasure)
             {
-                treasureCount = prev.TreasureCount + 1;
+                treasures.Add(c);
             }
-            else
-            {
-                treasureCount = prev.TreasureCount;
-            }
+            
             currCoordinate = c;
             prevCoordinate = new(prev.PrevCoordinates);
             prevCoordinate.Add(new(prev.isTreasure, prev.CurrentCoordinate));
         }
-        
-        
-        
     }
 }
-

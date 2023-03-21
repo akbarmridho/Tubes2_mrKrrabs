@@ -18,6 +18,7 @@ namespace mrKrrabs.Solver
         private List<List<Element>> map = new List<List<Element>>();
         public int TotalTreasure;
         public Coordinate StartPosition;
+        public List<Coordinate> treasureCoordinates = new List<Coordinate>();
         public int size { get; set; }
 
         public MazeMap(int size)
@@ -42,6 +43,7 @@ namespace mrKrrabs.Solver
                         list.Add(Element.Tunnel); break;
                     case 'T':
                         this.TotalTreasure++;
+                        this.treasureCoordinates.Add(new Coordinate(i, this.map.Count));
                         list.Add(Element.Treasure); break;
                     case 'X':
                         list.Add(Element.Dirt);

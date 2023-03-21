@@ -28,12 +28,12 @@ public class MainWindowViewModel : ViewModelBase
 
             if (Models.Algorithm == mrKrrabs.Models.AvailableAlgorithm.DFS)
             {
-                var dfs = new DFS(Models.Map);
+                var dfs = new DFS(Models.Map, Models.UseTsp);
                 dfs.Solve();
                 Result = dfs.getResult();
             } else
             {
-                var bfs = new BFS(Models.Map);
+                var bfs = new BFS(Models.Map, Models.UseTsp);
                 bfs.Solve();
                 Result = bfs.getResult();
             }
