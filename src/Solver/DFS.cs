@@ -59,6 +59,65 @@ namespace mrKrrabs.Solver
 
             return false;
         }
+
+        public int searchDuplicate(Coordinate c, List<Coordinate> lc)
+        {
+            for(int i = 0; i < lc.Count; i++)
+            {
+                if (lc[i] == c)
+                {
+                    return i;
+                }
+            }
+            return -9999;
+        }
+
+        public bool IsDuplicate(List<Coordinate> c)
+        {
+            for(int i = 0;i < c.Count; i++)
+            {
+                for(int j = c.Count-1; j > i; j--)
+                {
+                    if (c[i] == c[j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        
+        public void DeleteDuplicate(List<Coordinate> c)
+        {
+            int start = -9999;
+            int end =-9999;
+            bool found = false;
+            for(int i = 0; i < c.Count; i++)
+            {
+                for(int k = c.Count-1;k > i; k--)
+                {
+                    if(c[i] == c[k])
+                    {
+                        start = i;
+                        end = k;
+                        found = true;
+                        break;
+                        
+                    }
+                }
+                if(found) { break; }
+            }
+            if(end != -9999 && start != -9999)
+            {
+                for (int i = end; i > start; i--)
+                {
+                    c.RemoveAt(i);
+                }
+            }
+            
+        }
+
         public override void Solve()
         {
             do
@@ -83,55 +142,50 @@ namespace mrKrrabs.Solver
                 var routes = currRoute.PrevCoordinates.ToList();
                 
                 routes.Add(new(currRoute.IsTreasure, currRoute.CurrentCoordinate));
-                List<List<Coordinate>> temp = new List<List<Coordinate>>();
-                List<Coordinate> final = new List<Coordinate>();
-                int i = 0;
-                int totalFound = 0;
-                while (totalFound < mazeMap.TotalTreasure)
+                if (!this.TSP)
                 {
-                    List<Coordinate> c = new List<Coordinate>();
-
-                    Coordinate temp2 = routes[i].Item2;
-                    while (!mazeMap.treasureCoordinates.Contains(routes[i].Item2))
+                    List<List<Coordinate>> temp = new List<List<Coordinate>>();
+                    List<Coordinate> final = new List<Coordinate>();
+                    int i = 0;
+                    int totalFound = 0;
+                    while (totalFound < mazeMap.TotalTreasure)
                     {
-                        c.Add(temp2);
+                        List<Coordinate> c = new List<Coordinate>();
+                        if(i != 0)
+                        {
+                            c.Add(routes[i - 1].Item2);
+                        }
+                        Coordinate temp2 = routes[i].Item2;
+                        while (!mazeMap.treasureCoordinates.Contains(routes[i].Item2))
+                        {
+                            c.Add(temp2);
+                            i++;
+                            temp2 = routes[i].Item2;
+                        }
+                        mazeMap.treasureCoordinates.Remove(temp2);
                         i++;
-                        temp2 = routes[i].Item2;
+                        temp.Add(c);
+                        totalFound++;
                     }
-                    mazeMap.treasureCoordinates.Remove(temp2);
-                    c.Add(temp2);
-                    i++;
-                    temp.Add(c);
-                    totalFound++;
-                }
-                foreach (List<Coordinate> c in temp)
-                {
-                    int j = 0;
-                    List<Coordinate> temp2 = new List<Coordinate>();
-
-                    while (j < c.Count)
+                    foreach (List<Coordinate> c in temp)
                     {
-                        Coordinate curr = c[j];
-                        if (!IsMember(curr, temp2))
-                        {
-                            temp2.Add(curr);
-                            j++;
-                        }
-                        else
-                        {
-                            temp2.Remove(c[j - 1]);
-                            while (IsMember(c[j], temp2))
-                            {
-                                temp2.Remove(c[j]);
-                                j++;
-                            }
-                            temp2.Add(c[j - 1]);
+                        List<Coordinate> temp2 = new List<Coordinate>();
 
+                        while (IsDuplicate(c))
+                        {
+                            DeleteDuplicate(c);
                         }
+                        final.AddRange(c);
                     }
-                    final.AddRange(temp2);
+                    final.Add(routes[routes.Count-1].Item2);
+                    this.movement.SetRoute(final.ToList());
+
                 }
-                this.movement.SetRoute(final.ToList());
+                else
+                {
+                    this.movement.SetRoute(routes.Select(x => x.Item2).ToList());
+                }
+
 
 
             }
