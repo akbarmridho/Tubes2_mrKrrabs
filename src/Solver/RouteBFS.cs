@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Drawing.Printing;
-using System.Linq;
 
 namespace mrKrrabs.Solver;
 
@@ -8,13 +6,13 @@ public class RouteBFS : Route
 {
     // Attributes
     public List<List<int>> visitedCountRoute = new();
-    
+
     // Methods
     public int getVisitedRoute(Coordinate c)
     {
         return visitedCountRoute[c.Y][c.X];
     }
-        
+
     public void setVisitedRoute(Coordinate c)
     {
         this.visitedCountRoute[c.Y][c.X]++;
@@ -35,6 +33,9 @@ public class RouteBFS : Route
 
     public RouteBFS(bool isTreasure, Coordinate c, RouteBFS prev) : base(isTreasure, c, prev)
     {
-        this.visitedCountRoute = new(prev.visitedCountRoute);
+        for (int i = 0; i < prev.visitedCountRoute.Count; i++)
+        {
+            visitedCountRoute.Add(new(prev.visitedCountRoute[i]));
+        }
     }
 }
