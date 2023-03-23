@@ -12,10 +12,10 @@ namespace mrKrrabs.Solver
         {
             get => treasures.Count;
         }
-        private bool isTreasure;
-        private HashSet<Coordinate> treasures;
-        private Coordinate currCoordinate;
-        private List<Tuple<bool, Coordinate>> prevCoordinate = new();
+        protected bool isTreasure;
+        protected HashSet<Coordinate> treasures;
+        protected Coordinate currCoordinate;
+        protected List<Tuple<bool, Coordinate>> prevCoordinate = new();
 
         public bool IsTreasure
         {
@@ -31,14 +31,18 @@ namespace mrKrrabs.Solver
         {
             get => treasureCount;
         }
+
         public Coordinate PrevCoordinate()
         {
             int temp = prevCoordinate.Count;
-            if(temp > 0) {
+            if (temp > 0)
+            {
                 return this.prevCoordinate[this.prevCoordinate.Count - 1].Item2;
             }
+
             return null;
         }
+
         public List<Tuple<bool, Coordinate>> PrevCoordinates
         {
             get => prevCoordinate;
@@ -53,6 +57,7 @@ namespace mrKrrabs.Solver
                 this.treasures.Add(coordinate);
                 
             }
+            
             currCoordinate = coordinate;
         }
 
