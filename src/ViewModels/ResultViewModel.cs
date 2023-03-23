@@ -20,7 +20,7 @@ namespace mrKrrabs.ViewModels
 
             if (timeExec > 1000)
             {
-                this.TimeExec = string.Format("{0:0.00}", timeExec) + " s";
+                this.TimeExec = string.Format("{0:0.00}", timeExec / 1000.0) + " s";
             }
             else
             {
