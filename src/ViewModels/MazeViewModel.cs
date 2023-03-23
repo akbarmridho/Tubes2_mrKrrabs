@@ -42,12 +42,12 @@ namespace mrKrrabs.ViewModels
             return row * Size + col;
         }
 
-        public async void Begin(List<RouteBFS> movements, List<Coordinate> finalRoutes)
+        public async void Begin(List<RouteBFS> movements, List<Coordinate> finalRoutes, int delay)
         {
             Coordinate prev = new(0, 0);
             for (int i = 0; i < movements.Count; i++)
             {
-                await Task.Delay(200);
+                await Task.Delay(delay);
 
                 foreach (var grid in Maze)
                 {
@@ -82,12 +82,12 @@ namespace mrKrrabs.ViewModels
             }
         }
 
-        public async void Begin(List<Coordinate> movements)
+        public async void Begin(List<Coordinate> movements, int delay)
         {
             Coordinate prev = new(0, 0);
             for (int i = 0; i < movements.Count; i++)
             {
-                await Task.Delay(200);
+                await Task.Delay(delay);
                 var c = movements[i];
 
                 if (i != 0)

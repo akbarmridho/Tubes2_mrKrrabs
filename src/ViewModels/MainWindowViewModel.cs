@@ -34,7 +34,7 @@ public class MainWindowViewModel : ViewModelBase
                 Content = new ResultViewModel(Result, watch.ElapsedMilliseconds, Models.Algorithm == mrKrrabs.Models.AvailableAlgorithm.DFS, Models.UseTsp);
                 var mazeView = new MazeViewModel(Models.Map);
                 MazePanel = mazeView;
-                mazeView.Begin(Result.GetMoves());
+                mazeView.Begin(Result.GetMoves(), Models.Delay);
             }
             else
             {
@@ -47,7 +47,7 @@ public class MainWindowViewModel : ViewModelBase
                 Content = new ResultViewModel(Result, watch.ElapsedMilliseconds, Models.Algorithm == mrKrrabs.Models.AvailableAlgorithm.DFS, Models.UseTsp);
                 var mazeView = new MazeViewModel(Models.Map, mrKrrabs.Models.AvailableAlgorithm.BFS);
                 MazePanel = mazeView;
-                mazeView.Begin(Result.GetMoves(), Result.GetFinalRoute());
+                mazeView.Begin(Result.GetMoves(), Result.GetFinalRoute(), Models.Delay);
             }
         });
 

@@ -18,6 +18,7 @@ namespace mrKrrabs.ViewModels
         MazeMap? map;
         string pathDescription;
         string pathDescriptionColor;
+        int speed = 0;
         public FormViewModel()
         {
             pathDescription = "Tidak ada berkas yang dipilih";
@@ -27,7 +28,7 @@ namespace mrKrrabs.ViewModels
             var buttonEnabled = this.WhenAnyValue(x => x.Map).Select(x => x != null);
 
             Start = ReactiveCommand.Create(
-                    () => new Form(UseBfs ? AvailableAlgorithm.BFS : AvailableAlgorithm.DFS, WithTsp, Map!),
+                    () => new Form(UseBfs ? AvailableAlgorithm.BFS : AvailableAlgorithm.DFS, WithTsp, Map!, 3000/speed),
                     buttonEnabled);
 
             ShowOpenFileDialog = new Interaction<Unit, string?>();
@@ -49,7 +50,11 @@ namespace mrKrrabs.ViewModels
             get => map;
             set => this.RaiseAndSetIfChanged(ref map, value);
         }
-
+        public int Speed
+        {
+            get => speed;
+            set => this.RaiseAndSetIfChanged(ref speed, value);
+        }
         public string PathDescription
         {
             get => pathDescription;
