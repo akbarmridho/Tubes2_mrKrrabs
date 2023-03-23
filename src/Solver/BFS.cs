@@ -9,12 +9,12 @@ namespace mrKrrabs.Solver
         // Attributes
         protected MazeMap mazeMap;
         protected BFSResult result = new();
-        protected bool TSP; 
-        
+        protected bool TSP;
+
         // BFS
         private Queue<RouteBFS> available = new();
         protected RouteBFS currRoute;
-        
+
         // Method
         public BFS(MazeMap m, bool TSP)
         {
@@ -22,14 +22,15 @@ namespace mrKrrabs.Solver
             this.TSP = TSP;
             this.available.Enqueue(new RouteBFS(false, mazeMap.StartPosition, m));
         }
-        
-        public BFSResult GetResult() {
+
+        public BFSResult GetResult()
+        {
             return this.result;
         }
-        
+
         protected bool Moveable(Coordinate c)
         {
-            if(c.X < 0 || c.X >= mazeMap.size || c.Y < 0 || c.Y >= mazeMap.size)
+            if (c.X < 0 || c.X >= mazeMap.size || c.Y < 0 || c.Y >= mazeMap.size)
             {
                 return false;
             }
@@ -71,7 +72,7 @@ namespace mrKrrabs.Solver
             {
                 bool isTreasure = mazeMap.GetElement(bottom) == Element.Treasure;
                 var newRoute = new RouteBFS(isTreasure, bottom, route);
-                Tuple<int, Movement, RouteBFS> b= new(route.getVisitedRoute(bottom), Movement.DOWN, newRoute);
+                Tuple<int, Movement, RouteBFS> b = new(route.getVisitedRoute(bottom), Movement.DOWN, newRoute);
                 list.Add(b);
             }
 
@@ -92,11 +93,18 @@ namespace mrKrrabs.Solver
             var sorted = list.OrderBy(x => x.Item1).ThenBy(x => x.Item2).ToList();
             var minVisited = sorted.Min(x => x.Item1);
 
-            foreach(var e in sorted)
+            foreach (var e in sorted)
             {
-                if((route.PrevCoordinates.Count == 0 || sorted.Count == 1 || e.Item3.CurrentCoordinate != route.PrevCoordinate()) && e.Item1 == minVisited)
+                if (route.PrevCoordinates.Count == 0 || sorted.Count == 1 || e.Item3.CurrentCoordinate != route.PrevCoordinate() && e.Item1 == minVisited)
                 {
                     this.available.Enqueue(e.Item3);
+                }
+                else if (e.Item3.CurrentCoordinate == route.PrevCoordinate())
+                {
+                    if (sorted.Count > 1 && minVisited != sorted[1].Item1 && e.Item1 == minVisited)
+                    {
+                        this.available.Enqueue(e.Item3);
+                    }
                 }
             }
         }
@@ -121,7 +129,7 @@ namespace mrKrrabs.Solver
             // Solveable
             if (mazeMap.TotalTreasure == this.currRoute.TreasureCount)
             {
-                
+
                 // TSP
                 if (this.TSP)
                 {
@@ -134,13 +142,13 @@ namespace mrKrrabs.Solver
                     } while (available.Count > 0 && mazeMap.GetElement(this.currRoute.CurrentCoordinate) != Element.KrustyKrab);
 
                 }
-                
+
                 this.result.SetSolved();
                 var routes = currRoute.PrevCoordinates.ToList();
                 routes.Add(new(currRoute.IsTreasure, currRoute.CurrentCoordinate));
-                
+
                 this.result.SetFinalRoute(routes.Select(x => x.Item2).ToList());
             }
         }
-    }  
+    }
 }
