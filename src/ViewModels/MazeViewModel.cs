@@ -39,6 +39,46 @@ namespace mrKrrabs.ViewModels
             return row * Size + col;
         }
 
+        public async void Begin(List<RouteBFS> movements, List<Coordinate> finalRoutes)
+        {
+            Coordinate prev = new(0, 0);
+            for (int i = 0; i < movements.Count; i++)
+            {
+                await Task.Delay(200);
+
+                foreach (var grid in Maze)
+                {
+                    grid.SetActiveRoute(false);
+                }
+
+                foreach (var grid in movements[i].PrevCoordinates)
+                {
+                    Maze[rowColToIdx(grid.Item2.Y, grid.Item2.X)].SetActiveRoute(true);
+                }
+                
+                var c = movements[i].CurrentCoordinate;
+
+                if (i != 0)
+                {
+                    Maze[rowColToIdx(prev.Item2, prev.Item1)].Unvisit();
+                }
+                Maze[rowColToIdx(c.Item2, c.Item1)].Visit();
+                prev = c;
+            }
+            Maze[rowColToIdx(prev.Item2, prev.Item1)].Unvisit();
+
+            await Task.Delay(500);
+            foreach (var grid in Maze)
+            {
+                grid.Finalize(false);
+            }
+
+            foreach (var r in finalRoutes)
+            {
+                Maze[rowColToIdx(r.Item2, r.Item1)].Finalize(true);
+            }
+        }
+
         public async void Begin(List<Coordinate> movements)
         {
             Coordinate prev = new(0, 0);

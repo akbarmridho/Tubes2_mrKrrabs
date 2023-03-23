@@ -36,6 +36,19 @@ public class MainWindowViewModel : ViewModelBase
                 MazePanel = mazeView;
                 mazeView.Begin(Result.GetMoves());
             }
+            else
+            {
+                watch.Start();
+                var bfs = new BFS(Models.Map, Models.UseTsp);
+                bfs.Solve();
+                var Result = bfs.GetResult();
+                watch.Stop();
+
+                Content = new ResultViewModel(Result, watch.ElapsedMilliseconds, Models.Algorithm == mrKrrabs.Models.AvailableAlgorithm.DFS, Models.UseTsp);
+                var mazeView = new MazeViewModel(Models.Map);
+                MazePanel = mazeView;
+                mazeView.Begin(Result.GetMoves(), Result.GetFinalRoute());
+            }
         });
 
         Content = vm;

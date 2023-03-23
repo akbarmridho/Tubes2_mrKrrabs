@@ -30,6 +30,8 @@ namespace mrKrrabs.ViewModels
             {
                 this.player = GridImage.Player1;
             }
+
+            this.activeRoute = true;
         }
 
         public bool IsActive

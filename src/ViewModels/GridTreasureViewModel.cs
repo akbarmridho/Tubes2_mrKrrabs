@@ -16,7 +16,7 @@ namespace mrKrrabs.ViewModels
         protected Bitmap currentBackground;
         protected Bitmap treasureIcon;
 
-        protected bool activeRoute;
+        protected bool activeRoute = true;
         protected bool activeSearch;
         protected bool visited;
         protected bool opened;

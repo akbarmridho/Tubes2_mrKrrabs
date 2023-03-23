@@ -31,12 +31,10 @@ public class RouteBFS : Route
             }
             visitedCountRoute.Add(list2);
         }
-        setVisitedRoute(c);
     }
 
     public RouteBFS(bool isTreasure, Coordinate c, RouteBFS prev) : base(isTreasure, c, prev)
     {
         this.visitedCountRoute = new(prev.visitedCountRoute);
-        setVisitedRoute(c);
     }
 }
