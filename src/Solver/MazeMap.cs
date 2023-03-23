@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace mrKrrabs.Solver
 {
@@ -11,59 +9,129 @@ namespace mrKrrabs.Solver
         KrustyKrab,
         Treasure,
         Tunnel,
-        Dirt 
+        Dirt
     }
+
     public class MazeMap
     {
-        private List<List<Element>> map = new List<List<Element>>();
-        public int TotalTreasure;
+        protected List<List<Element>> map = new();
+        protected int totalTreasure = 0;
+
+        public List<List<Element>> Map { get => map; }
+        public int TotalTreasure { get => treasureCoordinates.Count; }
+        public int size { get => map.Count; }
         public Coordinate StartPosition;
-        public List<Coordinate> treasureCoordinates = new List<Coordinate>();
-        public int size { get; set; }
+        public List<Coordinate> treasureCoordinates = new();
 
-        public MazeMap(int size)
+        public MazeMap(string filePath)
         {
-            this.size = size;
-            this.StartPosition = new Coordinate(0, 0);
-        }
+            string[] lines = File.ReadAllLines(filePath).Select(x => x.Trim().Replace(" ", string.Empty).ToUpper()).ToArray();
+            int height = lines.Length;
+            int width = lines[0].Length;
+            int leftPad, rightPad, topPad, bottomPad;
 
-        public void InsertRow(List<char> row)
-        {
-            List<Element> list = new();
-            int i = 0;
-            foreach (char c in row)
+            if (width > height)
             {
-                switch(c)
-                {
-                    case 'K':
-                        StartPosition = new Coordinate(i, this.map.Count);
-                        list.Add(Element.KrustyKrab);
-                        break;
-                    case 'R':
-                        list.Add(Element.Tunnel); break;
-                    case 'T':
-                        this.TotalTreasure++;
-                        this.treasureCoordinates.Add(new Coordinate(i, this.map.Count));
-                        list.Add(Element.Treasure); break;
-                    case 'X':
-                        list.Add(Element.Dirt);
-                        break;
-                    default:
-                        break;
-                }
-                i++;
+                topPad = (width - height) / 2;
+                bottomPad = width - height - topPad;
+                leftPad = 0;
+                rightPad = 0;
+            }
+            else if (height > width)
+            {
+                topPad = 0;
+                bottomPad = 0;
+                leftPad = (height - width) / 2;
+                rightPad = height - width - leftPad;
+            }
+            else
+            {
+                topPad = 0;
+                bottomPad = 0;
+                leftPad = 0;
+                rightPad = 0;
             }
 
-            this.map.Add(list);
-        }
+            int targetSize = width > height ? width : height;
 
-        public List<List<Element>> Map
-        {
-            get => map;
-        }
+            if (topPad > 0)
+            {
+                for (int i = 0; i < topPad; i++)
+                {
+                    List<Element> pad = new();
+                    for (int j = 0; j < targetSize; j++)
+                    {
+                        pad.Add(Element.Dirt);
+                    }
+                    map.Add(pad);
+                }
+            }
 
-        public Element GetElement(int row, int col) {
-            return this.map[row][col];
+
+            foreach (string line in lines)
+            {
+                List<Element> chars = new List<Element>();
+
+                if (leftPad > 0)
+                {
+                    for (int i = 0; i < leftPad; i++)
+                    {
+                        chars.Add(Element.Dirt);
+                    }
+                }
+
+                int c = 0;
+                foreach (var chr in line.ToCharArray())
+                {
+                    if (chr == 'K')
+                    {
+                        StartPosition = new Coordinate(c, map.Count);
+                        chars.Add(Element.KrustyKrab);
+                    }
+                    else if (chr == 'T')
+                    {
+                        chars.Add(Element.Treasure);
+                        treasureCoordinates.Add(new Coordinate(c, map.Count));
+                    }
+                    else if (chr == 'R')
+                    {
+                        chars.Add(Element.Tunnel);
+                    }
+                    else if (chr == 'X')
+                    {
+                        chars.Add(Element.Dirt);
+                    }
+                    else
+                    {
+                        throw new System.Exception("Invalid chars found");
+                    }
+                    c++;
+                }
+
+                if (rightPad > 0)
+                {
+                    for (int i = 0; i < rightPad; i++)
+                    {
+                        chars.Add(Element.Dirt);
+                    }
+                }
+
+                map.Add(chars);
+            }
+
+            if (bottomPad > 0)
+            {
+                for (int i = 0; i < bottomPad; i++)
+                {
+                    List<Element> pad = new();
+                    for (int j = 0; j < targetSize; j++)
+                    {
+                        pad.Add(Element.Dirt);
+                    }
+                    map.Add(pad);
+                }
+            }
+
         }
 
         public Element GetElement(Coordinate c)
