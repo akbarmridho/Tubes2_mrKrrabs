@@ -30,6 +30,16 @@ namespace mrKrrabs.ViewModels
             // do nothing
         }
 
+        public Bitmap PlayerIcon
+        {
+            get => playerIcon;
+        }
+
+        public Bitmap Background
+        {
+            get => background;
+        }
+
         public bool IsActive
         {
             get => activeSearch;

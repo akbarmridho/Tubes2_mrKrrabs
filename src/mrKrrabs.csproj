@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
-	<AvaloniaResource Include="Assets\Images\*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,9 +26,5 @@
 
   <ItemGroup>
     <Compile Remove="Solver\Graph.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Assets\Images\" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,8 @@
 ﻿
 
+using Avalonia;
 using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 
 namespace mrKrrabs.Models
 {
@@ -8,7 +10,8 @@ namespace mrKrrabs.Models
     {
         public static Bitmap LoadImage(string filename)
         {
-            return new Bitmap("avares://mrKrrabs/Assets/Images/" + filename);
+            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+            return new Bitmap(assets!.Open(new System.Uri("avares://mrKrrabs/Assets/Images/" + filename)));
         }
 
         private static Bitmap? _treasureUnopened;
