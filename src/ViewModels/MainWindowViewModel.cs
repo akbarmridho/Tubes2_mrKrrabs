@@ -1,14 +1,15 @@
-﻿using ReactiveUI;
-using System.Linq;
+﻿using mrKrrabs.Solver;
+using ReactiveUI;
 using System;
+using System.Linq;
 using System.Reactive.Linq;
-using mrKrrabs.Solver;
 
 namespace mrKrrabs.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    public MainWindowViewModel() {
+    public MainWindowViewModel()
+    {
         //content = new FormViewModel();
         //mazePanel = new MazeEmptyViewModel();
         BeginForm();
@@ -17,34 +18,25 @@ public class MainWindowViewModel : ViewModelBase
     public void BeginForm()
     {
         var vm = new FormViewModel();
-            
+
         Observable.Merge(vm.Start).Take(1).Subscribe(Models =>
         {
             var watch = new System.Diagnostics.Stopwatch();
 
-            watch.Start();
-
-            MovementHistory Result;
-
             if (Models.Algorithm == mrKrrabs.Models.AvailableAlgorithm.DFS)
             {
+                watch.Start();
                 var dfs = new DFS(Models.Map, Models.UseTsp);
                 dfs.Solve();
-                Result = dfs.getResult();
-            } else
-            {
-                var bfs = new BFS(Models.Map, Models.UseTsp);
-                bfs.Solve();
-                Result = bfs.getResult();
-            }
-            watch.Stop();
+                var Result = dfs.GetResult();
+                watch.Stop();
 
-            
-            Content = new ResultViewModel(Result, watch.ElapsedMilliseconds, Models.Algorithm == mrKrrabs.Models.AvailableAlgorithm.DFS, Models.UseTsp);
-            var mazeView = new MazeViewModel(Result);
-            MazePanel = mazeView;
-            mazeView.Begin();
-        }); 
+                Content = new ResultViewModel(Result, watch.ElapsedMilliseconds, Models.Algorithm == mrKrrabs.Models.AvailableAlgorithm.DFS, Models.UseTsp);
+                var mazeView = new MazeViewModel(Models.Map);
+                MazePanel = mazeView;
+                mazeView.Begin(Result.GetMoves());
+            }
+        });
 
         Content = vm;
         MazePanel = new MazeEmptyViewModel();

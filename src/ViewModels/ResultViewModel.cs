@@ -1,16 +1,10 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using mrKrrabs.Solver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using mrKrrabs.Solver;
 
 namespace mrKrrabs.ViewModels
 {
-    public class ResultViewModel: ViewModelBase
+    public class ResultViewModel : ViewModelBase
     {
-        MovementHistory result;
+        IResult result;
 
         public int StepCount { get; set; }
         public int NodeCount { get; set; }
@@ -18,16 +12,17 @@ namespace mrKrrabs.ViewModels
         public string Route { get; set; }
         public string AlgorithmDesc { get; set; }
 
-        public ResultViewModel(MovementHistory result, float timeExec, bool useDfs, bool useTsp)
+        public ResultViewModel(IResult result, float timeExec, bool useDfs, bool useTsp)
         {
             this.result = result;
             this.StepCount = result.GetStepCount();
-            this.NodeCount = result.NodeCount;
+            this.NodeCount = result.GetNodeCount();
 
             if (timeExec > 1000)
             {
                 this.TimeExec = string.Format("{0:0.00}", timeExec) + " s";
-            } else
+            }
+            else
             {
                 this.TimeExec = string.Format("{0:0.00}", timeExec) + " ms";
             }
@@ -35,7 +30,8 @@ namespace mrKrrabs.ViewModels
             if (useDfs)
             {
                 this.AlgorithmDesc = "Depth First Search (DFS)";
-            } else
+            }
+            else
             {
                 this.AlgorithmDesc = "Breadth First Search (BFS)";
             }
@@ -43,22 +39,20 @@ namespace mrKrrabs.ViewModels
             if (useTsp)
             {
                 this.AlgorithmDesc += " dengan TSP";
-            } else
+            }
+            else
             {
                 this.AlgorithmDesc += " tanpa TSP";
             }
 
-            List<Movement> route = new List<Movement>();
-
-            for(int i = 0; i < result.Routes.Count - 1; i++)
+            if (this.result.IsSolved())
             {
-                var end = result.Routes[i+1];
-                var start = result.Routes[i];
-
-                route.Add(MovementHistory.GetDirection(start, end));
+                this.Route = this.result.GetRoutes();
             }
-
-            this.Route = string.Join(" - ", route);
+            else
+            {
+                this.Route = "Rute tidak ditemukan";
+            }
         }
     }
 }

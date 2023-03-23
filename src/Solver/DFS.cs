@@ -1,18 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace mrKrrabs.Solver
 {
-    public class DFS : BaseSolver
+    public class DFS
     {
-       
+        private MazeMap mazeMap;
+        private DFSResult result = new();
+        private List<List<int>> visitedCount = new();
+        private Route currentRoute;
+        private bool TSP;
         private Stack<Route> available = new();
-        public DFS(MazeMap m, bool TSP) : base(m, TSP) {
+
+        public DFS(MazeMap m, bool TSP)
+        {
+            for (int i = 0; i < m.size; i++)
+            {
+                List<int> list2 = new();
+                for (int j = 0; j < m.size; j++)
+                {
+                    list2.Add(0);
+                }
+                this.visitedCount.Add(list2);
+            }
+
+            this.mazeMap = m;
+            this.TSP = TSP;
             AddCoordinate(new Route(false, m.StartPosition));
+        }
+
+        public DFSResult GetResult()
+        {
+            return this.result;
+        }
+
+        private bool Moveable(Coordinate c)
+        {
+            if (c.X < 0 || c.X >= mazeMap.size || c.Y < 0 || c.Y >= mazeMap.size)
+            {
+                return false;
+            }
+
+            if (mazeMap.GetElement(c) == Element.Tunnel || mazeMap.GetElement(c) == Element.Treasure || mazeMap.GetElement(c) == Element.KrustyKrab)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void SetVisited(Coordinate c)
+        {
+            this.visitedCount[c.Y][c.X]++;
+        }
+
+        protected int GetVisited(Coordinate c1)
+        {
+            return this.visitedCount[c1.Y][c1.X];
         }
 
         private void AddCoordinate(Route coord)
@@ -20,116 +67,96 @@ namespace mrKrrabs.Solver
             this.available.Push(coord);
         }
 
-        protected override void AddAvailableMovement(Route route)
+        private void AddAvailableMovement(Route route)
         {
             var list = AvailableMovement(route);
             var sorted = list.OrderByDescending(x => x.Item1).ThenByDescending(x => x.Item2).ToList();
 
-            foreach(var e in sorted)
+            foreach (var e in sorted)
             {
-                var temp = currRoute.PrevCoordinate();
-                if (e.Item3.CurrentCoordinate == currRoute.PrevCoordinate() && sorted.Count > 1) 
+                var temp = currentRoute.PrevCoordinate();
+                if (e.Item3.CurrentCoordinate == currentRoute.PrevCoordinate() && sorted.Count > 1)
                 {
                     continue;
                 }
                 this.available.Push(e.Item3);
-              
+
             }
         }
 
-        protected override void Visit()
+        private List<Tuple<int, Movement, Route>> AvailableMovement(Route route)
         {
+            List<Tuple<int, Movement, Route>> list = new();
 
-            this.currRoute = available.Pop();
-            setVisited(this.currRoute.CurrentCoordinate);
-            movement.Move(currRoute.CurrentCoordinate);
-            AddAvailableMovement(currRoute);
+            var top = route.CurrentCoordinate.Top();
+            if (this.Moveable(top))
+            {
+                bool isTreasure = mazeMap.GetElement(top) == Element.Treasure;
+                var newRoute = new Route(isTreasure, top, route);
+                Tuple<int, Movement, Route> t = new(this.GetVisited(top), Movement.UP, newRoute);
+                list.Add(t);
+            }
+
+            var left = route.CurrentCoordinate.Left();
+            if (this.Moveable(left))
+            {
+                bool isTreasure = mazeMap.GetElement(left) == Element.Treasure;
+                var newRoute = new Route(isTreasure, left, route);
+                Tuple<int, Movement, Route> l = new(this.GetVisited(left), Movement.LEFT, newRoute);
+                list.Add(l);
+            }
+
+            var bottom = route.CurrentCoordinate.Bottom();
+            if (this.Moveable(bottom))
+            {
+                bool isTreasure = mazeMap.GetElement(bottom) == Element.Treasure;
+                var newRoute = new Route(isTreasure, bottom, route);
+                Tuple<int, Movement, Route> b = new(this.GetVisited(bottom), Movement.DOWN, newRoute);
+                list.Add(b);
+            }
+
+            var right = route.CurrentCoordinate.Right();
+            if (this.Moveable(right))
+            {
+                bool isTreasure = mazeMap.GetElement(right) == Element.Treasure;
+                var newRoute = new Route(isTreasure, right, route);
+                Tuple<int, Movement, Route> r = new(this.GetVisited(right), Movement.RIGHT, newRoute);
+                list.Add(r);
+            }
+
+            return list;
         }
-        public bool IsMember(Coordinate c, List <Coordinate> r)
+
+        protected void Visit()
         {
-            if(r.Count == 0) { return false; }
-            
-            for (int i = 0;i < r.Count; i++)
-            {
-                if(c == r[i])
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            this.currentRoute = available.Pop();
+            SetVisited(this.currentRoute.CurrentCoordinate);
+            result.Move(currentRoute.CurrentCoordinate);
+            AddAvailableMovement(currentRoute);
         }
 
-        public bool IsDuplicate(List<Coordinate> c)
-        {
-            for(int i = 0;i < c.Count; i++)
-            {
-                for(int j = c.Count-1; j > i; j--)
-                {
-                    if (c[i] == c[j])
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        public void DeleteDuplicate(List<Coordinate> c)
-        {
-            int start = -9999;
-            int end =-9999;
-            bool found = false;
-            for(int i = 0; i < c.Count; i++)
-            {
-                for(int k = c.Count-1;k > i; k--)
-                {
-                    if(c[i] == c[k])
-                    {
-                        start = i;
-                        end = k;
-                        found = true;
-                        break;
-                        
-                    }
-                }
-                if(found) { break; }
-            }
-            if(end != -9999 && start != -9999)
-            {
-                for (int i = end; i > start; i--)
-                {
-                    c.RemoveAt(i);
-                }
-            }
-            
-        }
-
-        public override void Solve()
+        public void Solve()
         {
             do
             {
                 Visit();
-            } while (available.Count > 0 && this.currRoute.TreasureCount < mazeMap.TotalTreasure);
-            
+            } while (available.Count > 0 && this.currentRoute.TreasureCount < mazeMap.TotalTreasure);
+
             // Get route
 
             // Solveable
-            if (mazeMap.TotalTreasure == this.currRoute.TreasureCount)
+            if (mazeMap.TotalTreasure == this.currentRoute.TreasureCount)
             {
                 if (this.TSP)
                 {
                     do
                     {
                         Visit();
-                    } while (available.Count > 0 && mazeMap.GetElement(this.currRoute.CurrentCoordinate) != Element.KrustyKrab);
+                    } while (available.Count > 0 && mazeMap.GetElement(this.currentRoute.CurrentCoordinate) != Element.KrustyKrab);
 
                 }
-                this.movement.Solved = true;
-                var routes = currRoute.PrevCoordinates.ToList();
-                
-                routes.Add(new(currRoute.IsTreasure, currRoute.CurrentCoordinate));
-                this.movement.SetRoute(routes.Select(x => x.Item2).ToList());
+
+                this.result.SetSolved();
             }
         }
     }

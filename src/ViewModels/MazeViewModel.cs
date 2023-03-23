@@ -1,5 +1,6 @@
 ﻿using mrKrrabs.Solver;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -7,11 +8,9 @@ namespace mrKrrabs.ViewModels
 {
     public class MazeViewModel : ViewModelBase
     {
-        MovementHistory history;
-        public MazeViewModel(MovementHistory history)
+        public MazeViewModel(MazeMap map)
         {
-            this.history = history;
-            foreach (var row in history.Maze.Map)
+            foreach (var row in map.Map)
             {
                 foreach (var col in row)
                 {
@@ -40,13 +39,13 @@ namespace mrKrrabs.ViewModels
             return row * Size + col;
         }
 
-        public async void Begin()
+        public async void Begin(List<Coordinate> movements)
         {
             Coordinate prev = new(0, 0);
-            for (int i = 0; i < history.Movements.Count; i++)
+            for (int i = 0; i < movements.Count; i++)
             {
                 await Task.Delay(200);
-                var c = history.Movements[i];
+                var c = movements[i];
 
                 if (i != 0)
                 {
@@ -63,7 +62,7 @@ namespace mrKrrabs.ViewModels
                 grid.Finalize(false);
             }
 
-            foreach (var r in history.Routes)
+            foreach (var r in movements)
             {
                 Maze[rowColToIdx(r.Item2, r.Item1)].Finalize(true);
             }
