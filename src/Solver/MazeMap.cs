@@ -85,13 +85,13 @@ namespace mrKrrabs.Solver
                 {
                     if (chr == 'K')
                     {
-                        StartPosition = new Coordinate(c, map.Count);
+                        StartPosition = new Coordinate(c + leftPad, map.Count);
                         chars.Add(Element.KrustyKrab);
                     }
                     else if (chr == 'T')
                     {
                         chars.Add(Element.Treasure);
-                        treasureCoordinates.Add(new Coordinate(c, map.Count));
+                        treasureCoordinates.Add(new Coordinate(c + leftPad, map.Count));
                     }
                     else if (chr == 'R')
                     {
