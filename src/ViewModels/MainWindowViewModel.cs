@@ -45,7 +45,7 @@ public class MainWindowViewModel : ViewModelBase
                 watch.Stop();
 
                 Content = new ResultViewModel(Result, watch.ElapsedMilliseconds, Models.Algorithm == mrKrrabs.Models.AvailableAlgorithm.DFS, Models.UseTsp);
-                var mazeView = new MazeViewModel(Models.Map);
+                var mazeView = new MazeViewModel(Models.Map, mrKrrabs.Models.AvailableAlgorithm.BFS);
                 MazePanel = mazeView;
                 mazeView.Begin(Result.GetMoves(), Result.GetFinalRoute());
             }

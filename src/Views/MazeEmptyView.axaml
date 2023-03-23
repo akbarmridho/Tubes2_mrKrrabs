@@ -6,8 +6,9 @@
 			 Width="720"
 			 Height="720"
              x:Class="mrKrrabs.Views.MazeEmptyView">
-	<Panel Background="Beige">
-		<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center">
+	<Panel>
+		<Image Source="avares://mrKrrabs/Assets/Images/RightBackground.png" />
+		<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="AntiqueWhite">
 			Pilih file dan tekan tombol mulai untuk memulai
 		</TextBlock>
 	</Panel>

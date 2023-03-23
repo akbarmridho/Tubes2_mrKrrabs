@@ -7,11 +7,15 @@
 			 Width="720"
 			 Height="720"
              x:Class="mrKrrabs.Views.MazeView">
-	<ItemsControl Items="{Binding Maze}">
-		<ItemsControl.ItemsPanel>
-			<ItemsPanelTemplate>
-				<UniformGrid Columns="{Binding Size}" Margin="40"/>
-			</ItemsPanelTemplate>
-		</ItemsControl.ItemsPanel>
-	</ItemsControl>
+	<Panel>
+		<Image Source="avares://mrKrrabs/Assets/Images/RightBackground.png" />
+		<Image Source="avares://mrKrrabs/Assets/Images/RightForegound.png"/>
+		<ItemsControl Items="{Binding Maze}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<UniformGrid Columns="{Binding Size}" Margin="40"/>
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+		</ItemsControl>
+	</Panel>
 </UserControl>

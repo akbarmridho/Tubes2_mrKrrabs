@@ -1,4 +1,5 @@
-﻿using mrKrrabs.Solver;
+﻿using mrKrrabs.Models;
+using mrKrrabs.Solver;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,23 +9,25 @@ namespace mrKrrabs.ViewModels
 {
     public class MazeViewModel : ViewModelBase
     {
-        public MazeViewModel(MazeMap map)
+        public MazeViewModel(MazeMap map, AvailableAlgorithm algorithm = AvailableAlgorithm.DFS)
         {
+            bool alternative = algorithm == AvailableAlgorithm.BFS;
+
             foreach (var row in map.Map)
             {
                 foreach (var col in row)
                 {
                     if (col == Element.KrustyKrab)
                     {
-                        this.Maze.Add(new GridKrustyViewModel());
+                        this.Maze.Add(new GridKrustyViewModel(alternative));
                     }
                     else if (col == Element.Tunnel)
                     {
-                        this.Maze.Add(new GridTunnelViewModel());
+                        this.Maze.Add(new GridTunnelViewModel(alternative));
                     }
                     else if (col == Element.Treasure)
                     {
-                        this.Maze.Add(new GridTreasureViewModel());
+                        this.Maze.Add(new GridTreasureViewModel(alternative));
                     }
                     else
                     {
@@ -55,7 +58,7 @@ namespace mrKrrabs.ViewModels
                 {
                     Maze[rowColToIdx(grid.Item2.Y, grid.Item2.X)].SetActiveRoute(true);
                 }
-                
+
                 var c = movements[i].CurrentCoordinate;
 
                 if (i != 0)
