@@ -57,16 +57,16 @@ namespace mrKrrabs.ViewModels
             }
             Maze[rowColToIdx(prev.Item2, prev.Item1)].Unvisit();
 
-            //await Task.Delay(500);
-            //foreach (var grid in Maze)
-            //{
-            //    grid.
-            //}
+            await Task.Delay(500);
+            foreach (var grid in Maze)
+            {
+                grid.Finalize(false);
+            }
 
-            //foreach (var r in history.Routes)
-            //{
-            //    Maze[rowColToIdx(r.Item2, r.Item1)].SetRoute();
-            //}
+            foreach (var r in history.Routes)
+            {
+                Maze[rowColToIdx(r.Item2, r.Item1)].Finalize(true);
+            }
         }
 
         public ObservableCollection<GridViewModelBase> Maze { get; } = new();

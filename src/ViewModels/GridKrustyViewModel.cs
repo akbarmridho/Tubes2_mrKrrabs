@@ -55,5 +55,10 @@ namespace mrKrrabs.ViewModels
         {
             this.IsActive = true;
         }
+
+        public override void Finalize(bool isRoute)
+        {
+            // do nothing
+        }
     }
 }

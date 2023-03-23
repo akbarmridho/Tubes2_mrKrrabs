@@ -16,6 +16,7 @@ namespace mrKrrabs.Models
 
         private static Bitmap? _treasureUnopened;
         private static Bitmap? _treasureOpened;
+        private static Bitmap? _tunnelRoute;
         private static Bitmap? _tunnelVisited;
         private static Bitmap? _tunnel;
         private static Bitmap? _dirt;
@@ -40,6 +41,16 @@ namespace mrKrrabs.Models
                 _treasureOpened ??= LoadImage("TreasureOpened.png");
 
                 return _treasureOpened;
+            }
+        }
+
+        public static Bitmap TunnelRoute
+        {
+            get
+            {
+                _tunnelRoute ??= LoadImage("TunnelRoute.png");
+
+                return _tunnelRoute;
             }
         }
 

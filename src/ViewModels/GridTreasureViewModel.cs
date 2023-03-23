@@ -7,6 +7,7 @@ namespace mrKrrabs.ViewModels
     public class GridTreasureViewModel : GridViewModelBase
     {
         protected Bitmap backgroundVisited;
+        protected Bitmap backgroundRoute;
         protected Bitmap background;
         protected Bitmap player;
         protected Bitmap treasureUnopened;
@@ -23,6 +24,7 @@ namespace mrKrrabs.ViewModels
         public GridTreasureViewModel(bool alternativePlayer = false)
         {
             this.backgroundVisited = GridImage.TunnelVisited;
+            this.backgroundRoute = GridImage.TunnelRoute;
             this.background = GridImage.Tunnel;
             this.treasureUnopened = GridImage.TreasureUnopened;
             this.treasureOpened = GridImage.TreasureOpened;
@@ -96,6 +98,20 @@ namespace mrKrrabs.ViewModels
         public override void Unvisit()
         {
             this.IsActive = false;
+        }
+
+        public override void Finalize(bool isRoute)
+        {
+            if (isRoute)
+            {
+                this.Background = this.backgroundRoute;
+                this.TreasureIcon = this.treasureOpened;
+            }
+            else
+            {
+                this.Background = this.background;
+                this.TreasureIcon = this.treasureUnopened;
+            }
         }
 
         public Bitmap Background

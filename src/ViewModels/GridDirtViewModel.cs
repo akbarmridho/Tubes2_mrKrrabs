@@ -28,5 +28,10 @@ namespace mrKrrabs.ViewModels
         {
             // do nothing
         }
+
+        public override void Finalize(bool isRoute)
+        {
+            // do nothing
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace mrKrrabs.ViewModels
     public class GridTunnelViewModel : GridViewModelBase
     {
         protected Bitmap backgroundVisited;
+        protected Bitmap backgroundRoute;
         protected Bitmap background;
         protected Bitmap player;
         protected Bitmap currentBackground;
@@ -17,6 +18,7 @@ namespace mrKrrabs.ViewModels
         public GridTunnelViewModel(bool alternativePlayer = false)
         {
             this.backgroundVisited = GridImage.TunnelVisited;
+            this.backgroundRoute = GridImage.TunnelRoute;
             this.background = GridImage.Tunnel;
             this.currentBackground = this.background;
 
@@ -76,6 +78,18 @@ namespace mrKrrabs.ViewModels
         public override void Unvisit()
         {
             this.IsActive = false;
+        }
+
+        public override void Finalize(bool isRoute)
+        {
+            if (isRoute)
+            {
+                this.Background = this.backgroundRoute;
+            }
+            else
+            {
+                this.Background = this.background;
+            }
         }
 
         public Bitmap Background
