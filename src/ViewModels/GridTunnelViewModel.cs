@@ -12,7 +12,7 @@ namespace mrKrrabs.ViewModels
         protected Bitmap player;
         protected Bitmap currentBackground;
 
-        protected bool activeRoute;
+        protected bool activeRoute = true;
         protected bool activeSearch;
         protected bool isVisited = false;
         public GridTunnelViewModel(bool alternativePlayer = false)
@@ -30,8 +30,6 @@ namespace mrKrrabs.ViewModels
             {
                 this.player = GridImage.Player1;
             }
-
-            this.activeRoute = true;
         }
 
         public bool IsActive
@@ -72,6 +70,7 @@ namespace mrKrrabs.ViewModels
 
         public override void Visit()
         {
+            this.activeRoute = true;
             this.isVisited = true;
             this.Background = this.backgroundVisited;
             this.IsActive = true;

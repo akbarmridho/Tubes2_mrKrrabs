@@ -89,6 +89,7 @@ namespace mrKrrabs.ViewModels
 
         public override void Visit()
         {
+            this.activeRoute = true;
             this.Background = this.backgroundVisited;
             this.visited = true;
             this.TreasureIcon = this.treasureOpened;
