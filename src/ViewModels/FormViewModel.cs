@@ -1,16 +1,11 @@
 ﻿using mrKrrabs.Models;
+using mrKrrabs.Solver;
 using ReactiveUI;
-using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reactive;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reactive.Linq;
-using Avalonia.Controls;
-using mrKrrabs.Solver;
-using mrKrrabs.Utils;
-using System.IO;
+using System.Threading.Tasks;
 
 namespace mrKrrabs.ViewModels
 {
@@ -23,7 +18,8 @@ namespace mrKrrabs.ViewModels
         MazeMap? map;
         string pathDescription;
         string pathDescriptionColor;
-        public FormViewModel() {
+        public FormViewModel()
+        {
             pathDescription = "Tidak ada berkas yang dipilih";
             pathDescriptionColor = "Black";
             OpenFile = ReactiveCommand.CreateFromTask(OpenFileAsync);
@@ -42,13 +38,15 @@ namespace mrKrrabs.ViewModels
 
         public Interaction<Unit, string?> ShowOpenFileDialog { get; }
 
-        public string? MazePath {
+        public string? MazePath
+        {
             get => mazePath;
             set => this.RaiseAndSetIfChanged(ref mazePath, value);
         }
 
-        public MazeMap? Map { 
-            get => map; 
+        public MazeMap? Map
+        {
+            get => map;
             set => this.RaiseAndSetIfChanged(ref map, value);
         }
 
@@ -90,19 +88,19 @@ namespace mrKrrabs.ViewModels
             {
                 PathDescription = "Tidak ada berkas yang dipilih";
                 PathDescriptionColor = "Black";
-            } else
+            }
+            else
             {
-                var map = ValidateFile.Validate(filepath);
-
-                if (map == null)
+                try
+                {
+                    Map = new MazeMap(filepath);
+                    PathDescription = "Berkas " + Path.GetFileName(filepath) + " dipilih";
+                    PathDescriptionColor = "Black";
+                }
+                catch
                 {
                     PathDescription = "File tidak ditemukan atau format file map salah";
                     PathDescriptionColor = "Red";
-                } else
-                {
-                    Map = map;
-                    PathDescription = "Berkas " + Path.GetFileName(filepath) + " dipilih";
-                    PathDescriptionColor = "Black";
                 }
             }
         }
