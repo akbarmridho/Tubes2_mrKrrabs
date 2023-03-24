@@ -11,18 +11,21 @@
 <p> Program ini merupakan desktop app program yang dibuat dengan bahasa C#. Pada program ini, pengguna dapat memasukkan textfile berisi konfigurasi peta. Di dalam peta tersebut terdapat posisi awal (K), posisi _treasure_ (T), Tunnel (R) dan Dirt (X). Kemudian, pengguna dapat memilih algoritma DFS (Depth-First-Search) ataupun BFS (Breadth-First-Search) untuk menemukan rute yang mengambil semua _treasure_. Pada program ini juga diimplementasikan permasalahan Travelling Salesman Problem (TSP) shingga pengguna dapat kembali ke posisi awal. </p>
 <hr> 
 
+
+
+## Table of Contents
+1. [Features](#features)
+2. [Getting Started](#getting-started)
+3. [How to Run](#how-to-run) 
+4. [Tampilan Program](#tampilan)
+
+<a name="features"></a>
 ## Features
 Berikut merupakan fitur dari program kami:
 * Visualisasi Pencarian Rute secara Real-time
 * Slider untuk menyesuaikan waktu interval visualisasi rute
 * Toggle untuk mengaktifkan penyelesaian TSP
 * Button untuk memilih antara algoritma BFS atau DFS
-
-## Table of Contents
-1. [Getting Started](#getting-started)
-2. [How to Run](#how-to-run)
-3. [Struktur](#struktur)
-4. [Tampilan Program](#tampilan)
 
 <a name="getting started"></a>
 
