@@ -8,7 +8,7 @@
              x:Class="mrKrrabs.Views.FormView">
 	<DockPanel Margin="30">
 		<StackPanel DockPanel.Dock="Top">
-			<Button Command="{Binding OpenFile}">Pilih file</Button>
+			<Button Command="{Binding OpenFile}" >Pilih file</Button>
 			<TextBlock Margin="2,5,0,30" Foreground="{Binding PathDescriptionColor}" Text="{Binding PathDescription}"/>
 
 			<TextBlock Margin="0,-10,0,0" FontSize="18" FontWeight="Medium">Algoritma</TextBlock>

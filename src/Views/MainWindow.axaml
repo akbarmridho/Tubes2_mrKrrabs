@@ -23,7 +23,10 @@
 	<StackPanel Orientation="Horizontal">
 		<Panel Height="720" Width="560">
 			<Image Source="avares://mrKrrabs/Assets/Images/LeftBackground.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+			<Border Margin="50 235 55 65 " CornerRadius="15" Background="WhiteSmoke" BoxShadow="0 0 2 2 #59330d">
+			</Border>
 			<StackPanel Margin="40" Orientation="Vertical">
+				
 				<Panel Height="180">
 					<Image Source="/Assets/Images/Logo.png"/>
 				</Panel>
